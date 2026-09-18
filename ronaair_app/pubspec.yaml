@@ -1,0 +1,47 @@
+name: ronaair_app
+description: "RonaAir - Smartphone-Based Multimodal Early Warning System for Freshwater Fish Pond Water-Quality Risk"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Ikon bawaan Flutter
+  cupertino_icons: ^1.0.6
+
+  # Komunikasi HTTP ke backend Go
+  http: ^1.2.0
+
+  # State management sederhana
+  provider: ^6.1.2
+
+  # Cache lokal untuk offline fallback
+  shared_preferences: ^2.2.3
+
+  # Font Inter dari Google Fonts
+  google_fonts: ^6.2.1
+
+  # Format tanggal & waktu
+  intl: ^0.19.0
+
+  connectivity_plus: ^6.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Uncomment kalau nanti sudah ada asset
+  # assets:
+  #   - assets/images/
+  #   - assets/icons/
+  #   - assets/models/
