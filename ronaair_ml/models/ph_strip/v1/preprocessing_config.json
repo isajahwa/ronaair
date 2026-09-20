@@ -1,0 +1,64 @@
+{
+  "model_version": "ronair-ph-1.0.0",
+  "color_space_pipeline": [
+    "BGR (OpenCV native)",
+    "normalised RGB",
+    "HSV",
+    "CIELAB"
+  ],
+  "opencv_conversions": {
+    "hsv": "cv2.COLOR_BGR2HSV (H in 0-179, S/V in 0-255)",
+    "lab": "cv2.COLOR_BGR2LAB (8-bit: L 0-255, a/b 0-255 offset by 128)"
+  },
+  "roi_rule": {
+    "priority_1": "dataset annotation: top-left = (position.x*W, position.y*H); size = (rect.x/1000*W, rect.y/1000*H)",
+    "priority_2": "OpenCV saturation-threshold segmentation of the most saturated blob, shrunk 20% toward its centre",
+    "priority_3": "central crop of W/6 x H/12",
+    "rect_scale": 1000.0
+  },
+  "input_size": "no resize; features are computed on the ROI at native resolution",
+  "normalised_rgb_formula": "rn = R/(R+G+B+1e-6), likewise gn, bn",
+  "white_balance": {
+    "applied": false,
+    "formula": "roi_normalised = clip(roi / reference_mean_BGR * 200.0, 0, 255)",
+    "note": "Only applicable when an in-image reference patch is present."
+  },
+  "feature_order": [
+    "R_mean",
+    "R_std",
+    "G_mean",
+    "G_std",
+    "B_mean",
+    "B_std",
+    "rn_mean",
+    "rn_std",
+    "gn_mean",
+    "gn_std",
+    "bn_mean",
+    "bn_std",
+    "H_mean",
+    "H_std",
+    "S_mean",
+    "S_std",
+    "V_mean",
+    "V_std",
+    "L_mean",
+    "L_std",
+    "a_mean",
+    "a_std",
+    "blab_mean",
+    "blab_std"
+  ],
+  "quality_rules": {
+    "min_brightness": 25.0,
+    "max_brightness": 245.0,
+    "min_contrast": 8.0,
+    "min_blur_score": 15.0,
+    "min_roi_pixels": 80,
+    "max_roi_saturation_zero": 0.98
+  },
+  "ph_valid_range": [
+    5.016,
+    8.552
+  ]
+}

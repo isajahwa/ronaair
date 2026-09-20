@@ -1,0 +1,116 @@
+{
+  "note": "Kasus uji deterministik untuk risk_fusion. Hasil dihitung dengan salinan logika rule_engine notebook + aturan di models.yaml. expected_data_quality dihitung TANPA empirical_operating_envelope; dengan envelope dari risk_rules.json, nilai OK bisa menjadi POSSIBLE_OUT_OF_DISTRIBUTION. Cocokkan risk_status dan fired_rules secara ketat; data_quality secara longgar untuk kasus OK.",
+  "cases": [
+    {
+      "id": "case_1_sensor_only_no_do_no_visual",
+      "description": "Sensor nyata tanpa DO dan tanpa foto",
+      "input": {
+        "water_temp": 24.3,
+        "ph_sensor": 7.5,
+        "tds_ppm": 330.0
+      },
+      "expected_risk_status": "INSUFFICIENT_EVIDENCE",
+      "expected_fired_rules": [],
+      "expected_data_quality": "INSUFFICIENT_EVIDENCE"
+    },
+    {
+      "id": "case_2_low_do_and_visual_shift",
+      "description": "DO estimasi rendah + rona air berubah",
+      "input": {
+        "water_temp": 31.2,
+        "ph_sensor": 8.1,
+        "tds_ppm": 410.0,
+        "ec_value": 820.0,
+        "do_est": 2.4,
+        "visual_score": 0.82,
+        "ph_visual_est": 8.0,
+        "image_quality": "OK",
+        "hour": 5
+      },
+      "expected_risk_status": "SIAGA",
+      "expected_fired_rules": [
+        "R002",
+        "R003",
+        "R030",
+        "R031"
+      ],
+      "expected_data_quality": "OK"
+    },
+    {
+      "id": "case_3_impossible_ph",
+      "description": "Sensor rusak (pH mustahil)",
+      "input": {
+        "water_temp": 25.0,
+        "ph_sensor": 15.8
+      },
+      "expected_risk_status": "INSUFFICIENT_EVIDENCE",
+      "expected_fired_rules": [],
+      "expected_data_quality": "INSUFFICIENT_EVIDENCE"
+    },
+    {
+      "id": "case_4_all_null",
+      "description": "Semua null",
+      "input": {},
+      "expected_risk_status": "INSUFFICIENT_EVIDENCE",
+      "expected_fired_rules": [],
+      "expected_data_quality": "INSUFFICIENT_EVIDENCE"
+    },
+    {
+      "id": "case_5_extreme_acid",
+      "description": "pH asam ekstrem",
+      "input": {
+        "water_temp": 27,
+        "ph_sensor": 5.0,
+        "do_est": 6.5,
+        "visual_score": 0.2
+      },
+      "expected_risk_status": "DARURAT",
+      "expected_fired_rules": [
+        "R010",
+        "R012"
+      ],
+      "expected_data_quality": "OK"
+    },
+    {
+      "id": "case_6_normal",
+      "description": "Semua normal",
+      "input": {
+        "water_temp": 27,
+        "ph_sensor": 7.2,
+        "do_est": 6.5,
+        "visual_score": 0.2
+      },
+      "expected_risk_status": "NORMAL",
+      "expected_fired_rules": [],
+      "expected_data_quality": "OK"
+    },
+    {
+      "id": "case_7_ph_channel_disagreement",
+      "description": "Selisih pH foto vs sensor",
+      "input": {
+        "water_temp": 27,
+        "ph_sensor": 7.2,
+        "do_est": 6.5,
+        "ph_visual_est": 8.5
+      },
+      "expected_risk_status": "WASPADA",
+      "expected_fired_rules": [
+        "R040"
+      ],
+      "expected_data_quality": "DEGRADED"
+    },
+    {
+      "id": "case_8_visual_scale_bug",
+      "description": "visual_score skala 0-100 lupa dibagi 100",
+      "input": {
+        "water_temp": 27,
+        "ph_sensor": 7.2,
+        "do_est": 6.5,
+        "visual_score": 63.4
+      },
+      "expected_risk_status": "NORMAL",
+      "expected_fired_rules": [],
+      "expected_data_quality": "DEGRADED"
+    }
+  ]
+}

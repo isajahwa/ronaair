@@ -1,0 +1,27 @@
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# --- Rahasia / lokal ---
+.env
+*.local
+
+# --- Artefak berat (simpan di luar Git atau pakai Git LFS) ---
+# Checkpoint & model Keras tidak dibutuhkan saat runtime (yang dipakai: .tflite / .joblib / .json)
+*.keras
+*.h5
+*.zip
+
+# Notebook training punya output tertanam (CV = ~10 MB). Simpan salinan asli di luar repo,
+# atau bersihkan output dulu:  jupyter nbconvert --clear-output --inplace <file>.ipynb
+training/notebooks/*.ipynb
+
+# Dataset mentah tidak boleh masuk repo
+training/data/
+samples/private/
+
+# Yang SENGAJA ikut Git (kecil): *.tflite, *.joblib, *.json, *.md, *.yaml, labels*.json
+# Jika total ukuran model membesar, aktifkan Git LFS untuk: *.tflite *.joblib

@@ -1,0 +1,58 @@
+[
+    {
+        "name": "wtemp",
+        "type": "float64"
+    },
+    {
+        "name": "ph",
+        "type": "float64"
+    },
+    {
+        "name": "ec",
+        "type": "float64"
+    },
+    {
+        "name": "turbidity",
+        "type": "float64"
+    },
+    {
+        "name": "nitrate_ppm",
+        "type": "float64"
+    },
+    {
+        "name": "ammonia_mgL",
+        "type": "float64"
+    },
+    {
+        "name": "manganese_mgL",
+        "type": "float64"
+    },
+    {
+        "name": "hour_sin",
+        "type": "float64"
+    },
+    {
+        "name": "hour_cos",
+        "type": "float64"
+    },
+    {
+        "name": "month_sin",
+        "type": "float64"
+    },
+    {
+        "name": "month_cos",
+        "type": "float64"
+    },
+    {
+        "name": "temp2",
+        "type": "float64"
+    },
+    {
+        "name": "temp_ph",
+        "type": "float64"
+    },
+    {
+        "name": "has_ec",
+        "type": "int64"
+    }
+]

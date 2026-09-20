@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "model_version": "ronair-risk-ai-1.0.0",
+  "fields": [
+    {
+      "name": "risk_status",
+      "type": "string",
+      "values": [
+        "NORMAL",
+        "WASPADA",
+        "SIAGA",
+        "DARURAT",
+        "INSUFFICIENT_EVIDENCE"
+      ]
+    },
+    {
+      "name": "supporting_factors",
+      "type": "array<string>",
+      "description": "Rule yang aktif beserta nilai pemicunya."
+    },
+    {
+      "name": "fired_rules",
+      "type": "array<string>",
+      "description": "Daftar rule_id."
+    },
+    {
+      "name": "data_quality",
+      "type": "string",
+      "values": [
+        "OK",
+        "DEGRADED",
+        "POSSIBLE_OUT_OF_DISTRIBUTION",
+        "INSUFFICIENT_EVIDENCE"
+      ]
+    },
+    {
+      "name": "out_of_distribution_notes",
+      "type": "array<string>"
+    },
+    {
+      "name": "recommendations",
+      "type": "array<object>"
+    },
+    {
+      "name": "explanation",
+      "type": "string"
+    },
+    {
+      "name": "model_version",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": "string (ISO-like)"
+    },
+    {
+      "name": "decision_source",
+      "type": "string",
+      "values": [
+        "RULE_ENGINE_LEVEL_1"
+      ]
+    },
+    {
+      "name": "ml_benchmark",
+      "type": "object|absent",
+      "description": "Keluaran benchmark eksperimental. BUKAN keputusan produksi."
+    }
+  ],
+  "risk_probability": {
+    "present": false,
+    "reason": "Probabilitas TIDAK diekspor. Model ML dilatih pada label turunan aturan, sehingga probabilitasnya tidak terkalibrasi terhadap risiko dunia nyata dan akan menyesatkan bila ditampilkan sebagai 'peluang bahaya'."
+  }
+}

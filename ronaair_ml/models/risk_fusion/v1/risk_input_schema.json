@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.0.0",
+  "model_version": "ronair-risk-ai-1.0.0",
+  "description": "Kontrak input Risk Engine RonaAir. Semua field boleh null; mesin akan menurunkan kualitas data alih-alih menebak.",
+  "features": [
+    {
+      "feature_name": "visual_score",
+      "data_type": "float",
+      "unit": "skor 0-1",
+      "required": false,
+      "source": "CV model (ronair_cv_classifier.tflite)",
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "fallback": "null -> kanal visual diabaikan, data_quality turun ke DEGRADED"
+    },
+    {
+      "feature_name": "visual_condition",
+      "data_type": "string",
+      "unit": "kelas CV",
+      "required": false,
+      "source": "CV model (kelas visual)",
+      "valid_range": null,
+      "fallback": "null -> hanya dipakai untuk penjelasan, bukan keputusan"
+    },
+    {
+      "feature_name": "image_quality",
+      "data_type": "string",
+      "unit": "OK|FAIL",
+      "required": false,
+      "source": "OpenCV image quality check",
+      "valid_range": [
+        "OK",
+        "FAIL"
+      ],
+      "fallback": "FAIL -> visual_score diabaikan"
+    },
+    {
+      "feature_name": "ph_visual_est",
+      "data_type": "float",
+      "unit": "pH",
+      "required": false,
+      "source": "pH photo model (PolynomialRidge2 / COMBINED_ALL)",
+      "valid_range": [
+        0.0,
+        14.0
+      ],
+      "fallback": "null -> ph_difference tidak dihitung",
+      "note": "Estimasi dari model PolynomialRidge2/COMBINED_ALL. Hanya valid pada rentang validasi model pH tersebut; di luar itu WAJIB memunculkan warning, bukan ekstrapolasi diam-diam."
+    },
+    {
+      "feature_name": "ph_sensor",
+      "data_type": "float",
+      "unit": "pH",
+      "required": true,
+      "source": "ESP32 pH probe",
+      "valid_range": [
+        0.0,
+        14.0
+      ],
+      "empirical_envelope": [
+        5.56,
+        11.24
+      ],
+      "fallback": "null -> INSUFFICIENT_EVIDENCE"
+    },
+    {
+      "feature_name": "water_temp",
+      "data_type": "float",
+      "unit": "degC",
+      "required": true,
+      "source": "ESP32 temperature probe",
+      "valid_range": [
+        0.0,
+        45.0
+      ],
+      "empirical_envelope": [
+        22.0,
+        26.69
+      ],
+      "fallback": "null -> INSUFFICIENT_EVIDENCE"
+    },
+    {
+      "feature_name": "ec_value",
+      "data_type": "float",
+      "unit": "uS/cm",
+      "required": false,
+      "source": "ESP32 EC probe",
+      "valid_range": [
+        0.0,
+        100000.0
+      ],
+      "fallback": "null -> diabaikan"
+    },
+    {
+      "feature_name": "tds_ppm",
+      "data_type": "float",
+      "unit": "ppm",
+      "required": false,
+      "source": "ESP32 TDS (derived from EC)",
+      "valid_range": [
+        0.0,
+        50000.0
+      ],
+      "empirical_envelope": [
+        268.0,
+        1028.0
+      ],
+      "fallback": "null -> diabaikan"
+    },
+    {
+      "feature_name": "do_est",
+      "data_type": "float",
+      "unit": "mg/L",
+      "required": false,
+      "source": "DO soft-sensor (ESTIMATED, not measured)",
+      "valid_range": [
+        0.0,
+        25.0
+      ],
+      "fallback": "null -> DEGRADED; bila visual_score juga null -> INSUFFICIENT_EVIDENCE",
+      "note": "ESTIMATED DO (soft-sensor). Wajib ditampilkan sebagai 'Estimated DO' di UI."
+    },
+    {
+      "feature_name": "hour",
+      "data_type": "int",
+      "unit": "0-23",
+      "required": false,
+      "source": "device clock",
+      "valid_range": [
+        0,
+        23
+      ],
+      "fallback": "null -> konteks siang/malam tidak dipakai"
+    }
+  ]
+}

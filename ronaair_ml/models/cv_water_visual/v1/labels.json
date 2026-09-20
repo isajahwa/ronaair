@@ -1,0 +1,161 @@
+{
+  "note": "Indeks = posisi keluaran softmax model. Nama berasal dari label FOLDER dataset (bukan kelas RonaAir). Sebagian nama memuat karakter rusak akibat encoding nama file zip; itu tidak memengaruhi urutan.",
+  "n_classes": 31,
+  "classes": [
+    {
+      "index": 0,
+      "name": "Algbl_Bur”n_™vik_230813",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 1,
+      "name": "Algbl_F„rnsvik_Kramfors_230822",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 2,
+      "name": "Algbl_F„sk„r_Hudiksvall_230814",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 3,
+      "name": "Algbl_Hummelviksstrand_230815",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 4,
+      "name": "Algbl_Lingar”viken_230814",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 5,
+      "name": "Algbl_L”v”udden_Ume†_230815",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 6,
+      "name": "Algbl_L”v”udden_Ume†_230819",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 7,
+      "name": "Algbl_M†viken_Kramfors_230821",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 8,
+      "name": "Algbl_Strandpromenaden_Hudiksvall_230813",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 9,
+      "name": "Algbl_Svanaviken_檝ik_230814",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 10,
+      "name": "Algbl_T„rn”gern_Holmsund_230815",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 11,
+      "name": "Algbl_檝iks stadshamn_230814",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 12,
+      "name": "Algblomning_Bj”rk”fj„rden_Sundsvall_230724",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 13,
+      "name": "Algblomning_Branth„ll_S”dehamn_20230903",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 14,
+      "name": "Algblomning_Finnh„llan_K†gn„sudden_230726",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 15,
+      "name": "Algblomning_Gullvik_20230620",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 16,
+      "name": "Algblomning_Holmsund_20230828",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 17,
+      "name": "Algblomning_Kalix_Stor派amn_230712",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 18,
+      "name": "Algblomning_Lill-Renholmsgrundet_Lule†_230714",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 19,
+      "name": "Algblomning_Ostn„sudden_20230628",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 20,
+      "name": "Algblomning_Sand”skatan_Lule†_20230712",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 21,
+      "name": "Algblomning_Skagshamn_™rnsk”ldsvik_20230828",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 22,
+      "name": "Algblomning_Storsand_20230629",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 23,
+      "name": "Algblomning_Tierp_20230908",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 24,
+      "name": "Algblomning_djupsundsviken_Holmsund_20230908",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 25,
+      "name": "Algblomning_檙egrund_20230721",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 26,
+      "name": "Kommunens_bilder",
+      "group": "unknown_folder"
+    },
+    {
+      "index": 27,
+      "name": "algal_blooms_sweden_2023",
+      "group": "algal_bloom_photo_set"
+    },
+    {
+      "index": 28,
+      "name": "other",
+      "group": "other"
+    },
+    {
+      "index": 29,
+      "name": "water_bad",
+      "group": "water_bad"
+    },
+    {
+      "index": 30,
+      "name": "water_good",
+      "group": "water_good"
+    }
+  ]
+}

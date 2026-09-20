@@ -1,0 +1,597 @@
+{
+  "project": "RonaAir",
+  "module": "Computer Vision — Non-Contact Visual Screening System",
+  "dataset_sources": [
+    {
+      "name": "dataset_1",
+      "url": "https://drive.google.com/file/d/1glhcSnopkjDHScWk-BPfeN9wgYi3FQW7/view?usp=drive_link"
+    },
+    {
+      "name": "dataset_2",
+      "url": "https://drive.google.com/file/d/1a4DHiAhWw4_B6-gIGW1jna_u_-aDVgRk/view?usp=drive_link"
+    }
+  ],
+  "download_manifest": [
+    {
+      "name": "dataset_1",
+      "zip_path": "/content/RonaAir_CV/01_data/dataset_1.zip",
+      "size_bytes": 6005569865,
+      "zip_members": 22242,
+      "sha256": "8699e75e39d9521aea157f4710760b10336eaea7db5810a9dfb65ba9f0dc76c2"
+    },
+    {
+      "name": "dataset_2",
+      "zip_path": "/content/RonaAir_CV/01_data/dataset_2.zip",
+      "size_bytes": 351600822,
+      "zip_members": 177,
+      "sha256": "5947e37146716627f70a1175c73a574fce50de40beae406c41064afc5836d569"
+    }
+  ],
+  "n_images_inventory": 22379,
+  "n_feature_rows": 22379,
+  "label_audit": {
+    "status": "CANDIDATE_FOLDER_LABELS",
+    "validated": true,
+    "label_column": "candidate_label",
+    "allow_verified_folder_labels": true,
+    "reason": "Folder labels are unverified and are not ground truth",
+    "candidate_label_counts": {
+      "water_good": 14273,
+      "water_bad": 4515,
+      "other": 3443,
+      "algal_blooms_sweden_2023": 49,
+      "Algblomning_Branth„ll_S”dehamn_20230903": 9,
+      "Kommunens_bilder": 8,
+      "Algblomning_Lill-Renholmsgrundet_Lule†_230714": 5,
+      "Algbl_Lingar”viken_230814": 5,
+      "Algblomning_Gullvik_20230620": 5,
+      "Algblomning_Skagshamn_™rnsk”ldsvik_20230828": 5,
+      "Algblomning_Ostn„sudden_20230628": 5,
+      "Algbl_M†viken_Kramfors_230821": 5,
+      "Algblomning_檙egrund_20230721": 4,
+      "Algbl_Strandpromenaden_Hudiksvall_230813": 4,
+      "Algblomning_Storsand_20230629": 4,
+      "Algbl_Svanaviken_檝ik_230814": 3,
+      "Algblomning_djupsundsviken_Holmsund_20230908": 3,
+      "Algbl_Hummelviksstrand_230815": 3,
+      "Algbl_F„rnsvik_Kramfors_230822": 3,
+      "Algbl_Bur”n_™vik_230813": 3,
+      "Algbl_F„sk„r_Hudiksvall_230814": 3,
+      "Algblomning_Kalix_Stor派amn_230712": 3,
+      "Algblomning_Holmsund_20230828": 3,
+      "Algblomning_Tierp_20230908": 2,
+      "Algblomning_Finnh„llan_K†gn„sudden_230726": 2,
+      "Algbl_L”v”udden_Ume†_230815": 2,
+      "Algbl_檝iks stadshamn_230814": 2,
+      "Algbl_L”v”udden_Ume†_230819": 2,
+      "Algbl_T„rn”gern_Holmsund_230815": 2,
+      "Algblomning_Sand”skatan_Lule†_20230712": 2,
+      "Algblomning_Bj”rk”fj„rden_Sundsvall_230724": 2
+    },
+    "mapping_mode": "auto",
+    "mapping_used": "raw_folder_labels_fallback",
+    "rona_class_counts": {
+      "water_good": 14273,
+      "water_bad": 4515,
+      "other": 3443,
+      "algal_blooms_sweden_2023": 49,
+      "Algblomning_Branth„ll_S”dehamn_20230903": 9,
+      "Kommunens_bilder": 8,
+      "Algblomning_Lill-Renholmsgrundet_Lule†_230714": 5,
+      "Algbl_Lingar”viken_230814": 5,
+      "Algblomning_Gullvik_20230620": 5,
+      "Algblomning_Skagshamn_™rnsk”ldsvik_20230828": 5,
+      "Algblomning_Ostn„sudden_20230628": 5,
+      "Algbl_M†viken_Kramfors_230821": 5,
+      "Algblomning_檙egrund_20230721": 4,
+      "Algbl_Strandpromenaden_Hudiksvall_230813": 4,
+      "Algblomning_Storsand_20230629": 4,
+      "Algbl_Svanaviken_檝ik_230814": 3,
+      "Algblomning_djupsundsviken_Holmsund_20230908": 3,
+      "Algbl_Hummelviksstrand_230815": 3,
+      "Algbl_F„rnsvik_Kramfors_230822": 3,
+      "Algbl_Bur”n_™vik_230813": 3,
+      "Algbl_F„sk„r_Hudiksvall_230814": 3,
+      "Algblomning_Kalix_Stor派amn_230712": 3,
+      "Algblomning_Holmsund_20230828": 3,
+      "Algblomning_Tierp_20230908": 2,
+      "Algblomning_Finnh„llan_K†gn„sudden_230726": 2,
+      "Algbl_L”v”udden_Ume†_230815": 2,
+      "Algbl_檝iks stadshamn_230814": 2,
+      "Algbl_L”v”udden_Ume†_230819": 2,
+      "Algbl_T„rn”gern_Holmsund_230815": 2,
+      "Algblomning_Sand”skatan_Lule†_20230712": 2,
+      "Algblomning_Bj”rk”fj„rden_Sundsvall_230724": 2
+    },
+    "n_classes_available": 31,
+    "imbalance_ratio": 7136.5,
+    "n_unlabelled_dropped": 0
+  },
+  "class_balance_report": {
+    "status": "OK",
+    "classes": [
+      "Algbl_Bur”n_™vik_230813",
+      "Algbl_F„rnsvik_Kramfors_230822",
+      "Algbl_F„sk„r_Hudiksvall_230814",
+      "Algbl_Hummelviksstrand_230815",
+      "Algbl_Lingar”viken_230814",
+      "Algbl_L”v”udden_Ume†_230815",
+      "Algbl_L”v”udden_Ume†_230819",
+      "Algbl_M†viken_Kramfors_230821",
+      "Algbl_Strandpromenaden_Hudiksvall_230813",
+      "Algbl_Svanaviken_檝ik_230814",
+      "Algbl_T„rn”gern_Holmsund_230815",
+      "Algbl_檝iks stadshamn_230814",
+      "Algblomning_Bj”rk”fj„rden_Sundsvall_230724",
+      "Algblomning_Branth„ll_S”dehamn_20230903",
+      "Algblomning_Finnh„llan_K†gn„sudden_230726",
+      "Algblomning_Gullvik_20230620",
+      "Algblomning_Holmsund_20230828",
+      "Algblomning_Kalix_Stor派amn_230712",
+      "Algblomning_Lill-Renholmsgrundet_Lule†_230714",
+      "Algblomning_Ostn„sudden_20230628",
+      "Algblomning_Sand”skatan_Lule†_20230712",
+      "Algblomning_Skagshamn_™rnsk”ldsvik_20230828",
+      "Algblomning_Storsand_20230629",
+      "Algblomning_Tierp_20230908",
+      "Algblomning_djupsundsviken_Holmsund_20230908",
+      "Algblomning_檙egrund_20230721",
+      "Kommunens_bilder",
+      "algal_blooms_sweden_2023",
+      "other",
+      "water_bad",
+      "water_good"
+    ],
+    "counts": {
+      "Algbl_Bur”n_™vik_230813": 3,
+      "Algbl_F„rnsvik_Kramfors_230822": 3,
+      "Algbl_F„sk„r_Hudiksvall_230814": 3,
+      "Algbl_Hummelviksstrand_230815": 3,
+      "Algbl_Lingar”viken_230814": 5,
+      "Algbl_L”v”udden_Ume†_230815": 2,
+      "Algbl_L”v”udden_Ume†_230819": 2,
+      "Algbl_M†viken_Kramfors_230821": 5,
+      "Algbl_Strandpromenaden_Hudiksvall_230813": 4,
+      "Algbl_Svanaviken_檝ik_230814": 3,
+      "Algbl_T„rn”gern_Holmsund_230815": 2,
+      "Algbl_檝iks stadshamn_230814": 2,
+      "Algblomning_Bj”rk”fj„rden_Sundsvall_230724": 2,
+      "Algblomning_Branth„ll_S”dehamn_20230903": 9,
+      "Algblomning_Finnh„llan_K†gn„sudden_230726": 2,
+      "Algblomning_Gullvik_20230620": 5,
+      "Algblomning_Holmsund_20230828": 3,
+      "Algblomning_Kalix_Stor派amn_230712": 3,
+      "Algblomning_Lill-Renholmsgrundet_Lule†_230714": 5,
+      "Algblomning_Ostn„sudden_20230628": 5,
+      "Algblomning_Sand”skatan_Lule†_20230712": 2,
+      "Algblomning_Skagshamn_™rnsk”ldsvik_20230828": 5,
+      "Algblomning_Storsand_20230629": 4,
+      "Algblomning_Tierp_20230908": 2,
+      "Algblomning_djupsundsviken_Holmsund_20230908": 3,
+      "Algblomning_檙egrund_20230721": 4,
+      "Kommunens_bilder": 8,
+      "algal_blooms_sweden_2023": 49,
+      "other": 3443,
+      "water_bad": 4515,
+      "water_good": 14273
+    },
+    "imbalance_ratio": 7136.5,
+    "strategy": "stratified split + class_weight",
+    "class_weights": {
+      "0": 169.9892,
+      "1": 169.9892,
+      "2": 254.9839,
+      "3": 169.9892,
+      "4": 101.9935,
+      "5": 254.9839,
+      "6": 254.9839,
+      "7": 169.9892,
+      "8": 169.9892,
+      "9": 169.9892,
+      "10": 254.9839,
+      "11": 254.9839,
+      "12": 254.9839,
+      "13": 84.9946,
+      "14": 254.9839,
+      "15": 169.9892,
+      "16": 169.9892,
+      "17": 169.9892,
+      "18": 169.9892,
+      "19": 101.9935,
+      "20": 254.9839,
+      "21": 169.9892,
+      "22": 169.9892,
+      "23": 254.9839,
+      "24": 169.9892,
+      "25": 127.4919,
+      "26": 84.9946,
+      "27": 14.1658,
+      "28": 0.2014,
+      "29": 0.1613,
+      "30": 0.051
+    }
+  },
+  "leakage_report": {
+    "status": "OK",
+    "group_leaks": 0,
+    "sha_leaks": 0,
+    "leaking_groups": [],
+    "leaking_sha": []
+  },
+  "split_meta": {
+    "split_strategy": "group_aware_stratified_split",
+    "train": 15809,
+    "val": 3303,
+    "test": 3267,
+    "n_groups": 20344
+  },
+  "mobilenet_result": {
+    "memmap": "/content/RonaAir_CV/05_outputs/mobilenet_embeddings/embeddings.float32.memmap",
+    "metadata_csv": "/content/RonaAir_CV/05_outputs/mobilenet_embeddings/embedding_metadata.csv",
+    "n": 22379,
+    "dim": 576
+  },
+  "classical_report": {
+    "status": "OK",
+    "results": [
+      {
+        "model": "logistic",
+        "accuracy": 0.7609427609427609,
+        "macro_precision": 0.16529947070949266,
+        "macro_recall": 0.13668690073970904,
+        "macro_f1": 0.14492806744619374
+      },
+      {
+        "model": "random_forest",
+        "accuracy": 0.7346189164370982,
+        "macro_precision": 0.20546878004782895,
+        "macro_recall": 0.2412694661296989,
+        "macro_f1": 0.18246323589537802
+      }
+    ]
+  },
+  "tf_training_report": {
+    "status": "OK",
+    "classes": [
+      "Algbl_Bur”n_™vik_230813",
+      "Algbl_F„rnsvik_Kramfors_230822",
+      "Algbl_F„sk„r_Hudiksvall_230814",
+      "Algbl_Hummelviksstrand_230815",
+      "Algbl_Lingar”viken_230814",
+      "Algbl_L”v”udden_Ume†_230815",
+      "Algbl_L”v”udden_Ume†_230819",
+      "Algbl_M†viken_Kramfors_230821",
+      "Algbl_Strandpromenaden_Hudiksvall_230813",
+      "Algbl_Svanaviken_檝ik_230814",
+      "Algbl_T„rn”gern_Holmsund_230815",
+      "Algbl_檝iks stadshamn_230814",
+      "Algblomning_Bj”rk”fj„rden_Sundsvall_230724",
+      "Algblomning_Branth„ll_S”dehamn_20230903",
+      "Algblomning_Finnh„llan_K†gn„sudden_230726",
+      "Algblomning_Gullvik_20230620",
+      "Algblomning_Holmsund_20230828",
+      "Algblomning_Kalix_Stor派amn_230712",
+      "Algblomning_Lill-Renholmsgrundet_Lule†_230714",
+      "Algblomning_Ostn„sudden_20230628",
+      "Algblomning_Sand”skatan_Lule†_20230712",
+      "Algblomning_Skagshamn_™rnsk”ldsvik_20230828",
+      "Algblomning_Storsand_20230629",
+      "Algblomning_Tierp_20230908",
+      "Algblomning_djupsundsviken_Holmsund_20230908",
+      "Algblomning_檙egrund_20230721",
+      "Kommunens_bilder",
+      "algal_blooms_sweden_2023",
+      "other",
+      "water_bad",
+      "water_good"
+    ],
+    "train": 15809,
+    "val": 3303,
+    "test": 3267,
+    "freeze_epochs": 5,
+    "fine_tune_epochs": 10,
+    "class_weights": {
+      "Algbl_Bur”n_™vik_230813": 169.9892,
+      "Algbl_F„rnsvik_Kramfors_230822": 169.9892,
+      "Algbl_F„sk„r_Hudiksvall_230814": 254.9839,
+      "Algbl_Hummelviksstrand_230815": 169.9892,
+      "Algbl_Lingar”viken_230814": 101.9935,
+      "Algbl_L”v”udden_Ume†_230815": 254.9839,
+      "Algbl_L”v”udden_Ume†_230819": 254.9839,
+      "Algbl_M†viken_Kramfors_230821": 169.9892,
+      "Algbl_Strandpromenaden_Hudiksvall_230813": 169.9892,
+      "Algbl_Svanaviken_檝ik_230814": 169.9892,
+      "Algbl_T„rn”gern_Holmsund_230815": 254.9839,
+      "Algbl_檝iks stadshamn_230814": 254.9839,
+      "Algblomning_Bj”rk”fj„rden_Sundsvall_230724": 254.9839,
+      "Algblomning_Branth„ll_S”dehamn_20230903": 84.9946,
+      "Algblomning_Finnh„llan_K†gn„sudden_230726": 254.9839,
+      "Algblomning_Gullvik_20230620": 169.9892,
+      "Algblomning_Holmsund_20230828": 169.9892,
+      "Algblomning_Kalix_Stor派amn_230712": 169.9892,
+      "Algblomning_Lill-Renholmsgrundet_Lule†_230714": 169.9892,
+      "Algblomning_Ostn„sudden_20230628": 101.9935,
+      "Algblomning_Sand”skatan_Lule†_20230712": 254.9839,
+      "Algblomning_Skagshamn_™rnsk”ldsvik_20230828": 169.9892,
+      "Algblomning_Storsand_20230629": 169.9892,
+      "Algblomning_Tierp_20230908": 254.9839,
+      "Algblomning_djupsundsviken_Holmsund_20230908": 169.9892,
+      "Algblomning_檙egrund_20230721": 127.4919,
+      "Kommunens_bilder": 84.9946,
+      "algal_blooms_sweden_2023": 14.1658,
+      "other": 0.2014,
+      "water_bad": 0.1613,
+      "water_good": 0.051
+    },
+    "final_train_accuracy": 0.6192675232887268,
+    "final_val_accuracy": 0.7329699993133545
+  },
+  "supervised_evaluation": {
+    "status": "OK",
+    "n_test": 3267,
+    "accuracy": 0.8053259871441689,
+    "macro_precision": 0.13873732920255677,
+    "macro_recall": 0.22259049231993333,
+    "macro_f1": 0.15209711993497455,
+    "weighted_precision": 0.8847221415184693,
+    "weighted_recall": 0.8053259871441689,
+    "weighted_f1": 0.8383641085992333,
+    "classes": [
+      "Algbl_Bur”n_™vik_230813",
+      "Algbl_F„rnsvik_Kramfors_230822",
+      "Algbl_F„sk„r_Hudiksvall_230814",
+      "Algbl_Hummelviksstrand_230815",
+      "Algbl_Lingar”viken_230814",
+      "Algbl_L”v”udden_Ume†_230815",
+      "Algbl_L”v”udden_Ume†_230819",
+      "Algbl_M†viken_Kramfors_230821",
+      "Algbl_Strandpromenaden_Hudiksvall_230813",
+      "Algbl_Svanaviken_檝ik_230814",
+      "Algbl_T„rn”gern_Holmsund_230815",
+      "Algbl_檝iks stadshamn_230814",
+      "Algblomning_Bj”rk”fj„rden_Sundsvall_230724",
+      "Algblomning_Branth„ll_S”dehamn_20230903",
+      "Algblomning_Finnh„llan_K†gn„sudden_230726",
+      "Algblomning_Gullvik_20230620",
+      "Algblomning_Holmsund_20230828",
+      "Algblomning_Kalix_Stor派amn_230712",
+      "Algblomning_Lill-Renholmsgrundet_Lule†_230714",
+      "Algblomning_Ostn„sudden_20230628",
+      "Algblomning_Sand”skatan_Lule†_20230712",
+      "Algblomning_Skagshamn_™rnsk”ldsvik_20230828",
+      "Algblomning_Storsand_20230629",
+      "Algblomning_Tierp_20230908",
+      "Algblomning_djupsundsviken_Holmsund_20230908",
+      "Algblomning_檙egrund_20230721",
+      "Kommunens_bilder",
+      "algal_blooms_sweden_2023",
+      "other",
+      "water_bad",
+      "water_good"
+    ]
+  },
+  "silhouette_report": {
+    "rgb_features": {
+      "status": "OK",
+      "silhouette_score": -0.338081450306409,
+      "n_samples": 4000,
+      "n_groups": 18
+    },
+    "embedding": {
+      "status": "OK",
+      "silhouette_score": -0.08692422697088932,
+      "n_samples": 4000,
+      "n_groups": 17
+    },
+    "kmeans_rgb": {
+      "status": "OK",
+      "k": 4,
+      "silhouette_score": 0.2162586291827155,
+      "n_samples": 4000
+    }
+  },
+  "gradcam_report": {
+    "status": "OK",
+    "n_samples": 8,
+    "mean_roi_focus": 0.34019632637500763,
+    "threshold": 0.6,
+    "n_below_threshold": 6,
+    "images_below_threshold": [
+      "/content/RonaAir_CV/01_data/extracted/dataset_1/EOW_Datasets/augmented/data_256_3000/water_good/augmented_image_1001.png",
+      "/content/RonaAir_CV/01_data/extracted/dataset_1/EOW_Datasets/augmented/data_256_3000/water_good/augmented_image_3170.png",
+      "/content/RonaAir_CV/01_data/extracted/dataset_1/EOW_Datasets/augmented/data_256_3000/water_good/augmented_image_1185.png",
+      "/content/RonaAir_CV/01_data/extracted/dataset_1/EOW_Datasets/plain/data/water_bad/7550.png",
+      "/content/RonaAir_CV/01_data/extracted/dataset_1/EOW_Datasets/plain/data/water_good/11611.png",
+      "/content/RonaAir_CV/01_data/extracted/dataset_1/EOW_Datasets/plain/data/water_good/17277.png"
+    ]
+  },
+  "error_analysis": {
+    "status": "OK",
+    "n_correct": 2631,
+    "n_wrong": 636,
+    "error_rate": 0.19467401285583102,
+    "mean_confidence_correct": 0.7085498510143097,
+    "mean_confidence_wrong": 0.43778507828525026,
+    "gradcam_off_roi_samples": 6,
+    "low_quality_in_test": 1301
+  },
+  "ablation": {
+    "status": "OK",
+    "results": [
+      {
+        "block": "A_image_cnn",
+        "status": "OK",
+        "n_features": 576,
+        "accuracy": 0.9292929292929293,
+        "macro_f1": 0.4133677987935942,
+        "weighted_f1": 0.9296280556007758,
+        "silhouette_score": -0.11042420344218497
+      },
+      {
+        "block": "B_rgb_features",
+        "status": "OK",
+        "n_features": 29,
+        "accuracy": 0.3039485766758494,
+        "macro_f1": 0.033904037642986086,
+        "weighted_f1": 0.43403527170612094,
+        "silhouette_score": -0.5724475536506876
+      },
+      {
+        "block": "C_cnn_plus_rgb",
+        "status": "OK",
+        "n_features": 605,
+        "accuracy": 0.9317416590143863,
+        "macro_f1": 0.5171346894384362,
+        "weighted_f1": 0.9321203254416297,
+        "silhouette_score": -0.11201697849560881
+      },
+      {
+        "block": "D_cnn_rgb_hsv_lab",
+        "status": "OK",
+        "n_features": 634,
+        "accuracy": 0.933272115090297,
+        "macro_f1": 0.5175225028777684,
+        "weighted_f1": 0.9334760308141105,
+        "silhouette_score": -0.10908382800412378
+      }
+    ]
+  },
+  "deployment_readiness": {
+    "input_size": [
+      1,
+      224,
+      224,
+      3
+    ],
+    "backbone": "MobileNetV3-Small (ImageNet weights, fine-tuned tail)",
+    "preprocessing": "tf.keras.applications.mobilenet_v3.preprocess_input (inside the graph)",
+    "offline_capable": true,
+    "offline_note": "TFLite runs fully on-device; no network call is needed at inference time.",
+    "model_size_mb": {
+      "keras_classifier": 8.727,
+      "tflite_classifier_dynamic": 1.077,
+      "tflite_classifier_int8": 1.18,
+      "tflite_feature_extractor": 1.06
+    },
+    "inference_benchmark": {
+      "tflite_classifier_int8": {
+        "status": "NOT_AVAILABLE",
+        "reason": "RuntimeError('failed to create XNNPACK runtimeNode number 119 (TfLiteXNNPackDelegate) failed to prepare.')"
+      },
+      "tflite_classifier_dynamic": {
+        "status": "OK",
+        "input_dtype": "float32",
+        "input_shape": [
+          1,
+          224,
+          224,
+          3
+        ],
+        "mean_ms": 5.005577349993473,
+        "median_ms": 4.961479000030522,
+        "p90_ms": 5.392365899842844,
+        "n_runs": 20
+      },
+      "tflite_feature_extractor": {
+        "status": "OK",
+        "input_dtype": "float32",
+        "input_shape": [
+          1,
+          224,
+          224,
+          3
+        ],
+        "mean_ms": 4.931643749932846,
+        "median_ms": 4.782364999755373,
+        "p90_ms": 5.4233460994510105,
+        "n_runs": 20
+      }
+    },
+    "int8_status": "int8",
+    "quantization_pipeline": "MobileNetV3-Small -> TFLite -> INT8 -> offline Android"
+  },
+  "visual_score_definition": {
+    "range": [
+      0,
+      100
+    ],
+    "weights": {
+      "green_chroma": 0.35,
+      "lab_green": 0.25,
+      "saturation": 0.2,
+      "density": 0.2
+    },
+    "components": [
+      "green chromaticity excess",
+      "CIELAB greenness",
+      "HSV saturation",
+      "L* based density"
+    ],
+    "note": "deterministic color descriptor, not a probability or chemical measurement"
+  },
+  "export_results": [
+    {
+      "artifact": "feature_extractor_tflite",
+      "status": "OK",
+      "path": "/content/RonaAir_CV/04_models/ronair_mobilenetv3_small_feature_extractor.tflite",
+      "bytes": 1111376,
+      "quantization": "dynamic",
+      "int8_io": false,
+      "converter_source": "keras",
+      "n_failed_attempts": 0
+    },
+    {
+      "artifact": "classifier_tflite",
+      "status": "OK",
+      "path": "/content/RonaAir_CV/04_models/ronair_cv_classifier.tflite",
+      "bytes": 1128880,
+      "quantization": "dynamic",
+      "int8_io": false,
+      "converter_source": "keras",
+      "n_failed_attempts": 0
+    },
+    {
+      "artifact": "classifier_tflite_int8",
+      "status": "OK",
+      "representative_samples": 100,
+      "path": "/content/RonaAir_CV/04_models/ronair_cv_classifier_int8.tflite",
+      "bytes": 1237360,
+      "quantization": "int8",
+      "int8_io": false,
+      "converter_source": "keras",
+      "n_failed_attempts": 0
+    }
+  ],
+  "runtime": {
+    "python": "3.13.15",
+    "tensorflow": "2.20.0",
+    "opencv": "5.0.0",
+    "gpu_available": true
+  },
+  "decision_fusion_interface": {
+    "cv_outputs": [
+      "color_class",
+      "confidence",
+      "visual_score_0_100",
+      "mean_rgb",
+      "normalized_rgb",
+      "hsv",
+      "cielab"
+    ],
+    "sensor_inputs_expected": [
+      "suhu",
+      "pH",
+      "TDS",
+      "DO_est"
+    ],
+    "note": "Computer Vision does not stand alone; it is one input of the RonaAir Decision Fusion layer."
+  },
+  "scientific_limitations": [
+    "smartphone image is not a direct chemical measurement",
+    "color features are visual indicators, not direct cyanobacteria/cyanotoxin/chlorophyll-a/DO/turbidity measurements",
+    "the model performs visual screening of water color and density, it does not identify algal species or toxins",
+    "RonaCard heuristic is a conservative fallback and does not eliminate all camera/lighting variation",
+    "folder names are not treated as ground truth unless independently validated by the user",
+    "external validation is required before field performance claims"
+  ]
+}

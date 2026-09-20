@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "labels": [
+    "NORMAL",
+    "WASPADA",
+    "SIAGA",
+    "DARURAT"
+  ],
+  "description": "Biaya relatif kesalahan klasifikasi. Menganggap remeh risiko tinggi (false negative) jauh lebih mahal daripada alarm palsu.",
+  "validation_status": "PROVISIONAL — bobot ditetapkan oleh desain, belum dikalibrasi ekonomi lapangan",
+  "matrix": {
+    "NORMAL": {
+      "NORMAL": 0,
+      "WASPADA": 1,
+      "SIAGA": 2,
+      "DARURAT": 3
+    },
+    "WASPADA": {
+      "NORMAL": 3,
+      "WASPADA": 0,
+      "SIAGA": 1,
+      "DARURAT": 2
+    },
+    "SIAGA": {
+      "NORMAL": 6,
+      "WASPADA": 3,
+      "SIAGA": 0,
+      "DARURAT": 1
+    },
+    "DARURAT": {
+      "NORMAL": 9,
+      "WASPADA": 6,
+      "SIAGA": 3,
+      "DARURAT": 0
+    }
+  }
+}

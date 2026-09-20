@@ -1,0 +1,117 @@
+{
+  "model_name": "Model C",
+  "model_type": "Multiple Linear Regression",
+  "target": "do",
+  "target_meaning": "Actual/reference DO used for training; model output is Estimated DO, not measured DO.",
+  "feature_list": [
+    "wtemp",
+    "ec",
+    "ph"
+  ],
+  "units": {
+    "do": "mg/L",
+    "wtemp": "\u00b0C",
+    "ec": "us/cm",
+    "ph": "pH unit"
+  },
+  "intercept": 5.607391236608948,
+  "coefficients": {
+    "wtemp": -0.2633041904689574,
+    "ec": -0.021831208490066804,
+    "ph": 1.1582515514944878
+  },
+  "training_date": "2026-09-12T00:41:56",
+  "training_row_count_train_validation": 11541,
+  "validation_information": [
+    {
+      "Model": "Model A",
+      "Features": "wtemp",
+      "Status": "OK",
+      "Train_N": 36536,
+      "Validation_N": 7927,
+      "Validation_MAE": 0.24877922507222597,
+      "Validation_RMSE": 0.3432350401042157,
+      "Validation_R2": 0.9126950737163637,
+      "Validation_Bias_pred_minus_actual": -0.07803873891499354,
+      "Validation_MaxAbsError": 1.0016861175036107
+    },
+    {
+      "Model": "Model B",
+      "Features": "wtemp + ec",
+      "Status": "OK",
+      "Train_N": 36480,
+      "Validation_N": 7540,
+      "Validation_MAE": 0.2231515398526179,
+      "Validation_RMSE": 0.3083534448375511,
+      "Validation_R2": 0.925790431386776,
+      "Validation_Bias_pred_minus_actual": -0.09899443501259897,
+      "Validation_MaxAbsError": 0.9734118156253553
+    },
+    {
+      "Model": "Model C",
+      "Features": "wtemp + ec + ph",
+      "Status": "OK",
+      "Train_N": 11142,
+      "Validation_N": 399,
+      "Validation_MAE": 0.9073077525401555,
+      "Validation_RMSE": 0.9197042792869586,
+      "Validation_R2": -2.8986126068706914,
+      "Validation_Bias_pred_minus_actual": 0.9073077525401555,
+      "Validation_MaxAbsError": 1.4358642910161645
+    }
+  ],
+  "test_performance_locked_model": {
+    "MAE": 0.5887178350171203,
+    "RMSE": 0.6256471224398787,
+    "MSE": 0.39143432181730065,
+    "R2": 0.7238619052613839,
+    "Bias": 0.5887178350171203,
+    "MaxAbsError": 1.3737645856206413,
+    "N": 7927
+  },
+  "source_dataset": "/content/QC1_complete_Soapstone_Hydroshare.csv",
+  "primary_dataset_name": "QC1_complete_Soapstone_Hydroshare.csv",
+  "timestamp_range": {
+    "min": "2021-04-02 14:00:00",
+    "max": "2023-07-20 07:15:00"
+  },
+  "training_ranges": [
+    {
+      "feature": "ec",
+      "unit": "us/cm",
+      "train_min": 27.7,
+      "train_max": 96.9,
+      "warning": "Deployment input outside this range is extrapolation and should be flagged."
+    },
+    {
+      "feature": "ph",
+      "unit": "pH unit",
+      "train_min": 6.57,
+      "train_max": 7.54,
+      "warning": "Deployment input outside this range is extrapolation and should be flagged."
+    },
+    {
+      "feature": "wtemp",
+      "unit": "\u00b0C",
+      "train_min": 0.01,
+      "train_max": 22.04,
+      "warning": "Deployment input outside this range is extrapolation and should be flagged."
+    }
+  ],
+  "software_versions": {
+    "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "pandas": "2.2.3",
+    "numpy": "2.1.3",
+    "scikit_learn": "1.6.1",
+    "scipy": "1.16.3",
+    "statsmodels": "0.15.0"
+  },
+  "selection_reason": "Selected Model C using CV MAE mean, validation availability, robustness, and simpler-model tie break within 5%. Test data was not used for selection.",
+  "limitations": [
+    "No claim of universal validity.",
+    "Estimated DO is not a replacement for a reference DO sensor.",
+    "Test set was not used for model selection.",
+    "Inputs outside training range are extrapolation."
+  ]
+}

@@ -1,0 +1,35 @@
+# ronaair_ml - dependensi layanan inferensi (FastAPI)
+#
+# PENTING - PIN VERSI:
+#   scikit-learn, xgboost, numpy, pandas, dan runtime TFLite harus SAMA dengan lingkungan training,
+#   atau Anda harus menguji ulang parity prediksi. Versi TIDAK ditebak di sini.
+#   Cara mendapatkannya: jalankan scripts/print_env_versions.py di Colab (runtime training yang sama),
+#   lalu ganti baris bertanda TODO-PIN dengan  paket==versi  dari env_versions.json.
+#
+# Versi yang tercatat di output notebook yang sudah Anda punya:
+#   Fusion notebook : Python 3.12.3, numpy 2.4.4, pandas 3.0.2, scikit-learn 1.8.0 (xgboost tidak terpasang)
+#   CV notebook     : TensorFlow 2.20.0, OpenCV 5.0.0 (Colab)
+#   DO & pH notebook: tidak mencetak versi library
+
+# --- Web service ---
+fastapi
+uvicorn[standard]
+python-multipart        # upload gambar (multipart/form-data)
+pydantic>=2
+pyyaml
+
+# --- Numerik & model tabular ---
+numpy                   # TODO-PIN
+pandas                  # TODO-PIN
+scikit-learn            # TODO-PIN  (memuat risk_model.joblib / final_model.joblib / pipeline DO)
+xgboost                 # TODO-PIN  (WAJIB untuk pipeline DO: ronaair_do_xgboost_final.joblib)
+joblib                  # TODO-PIN
+
+# --- Gambar / computer vision ---
+opencv-python-headless  # TODO-PIN  (ROI pH strip, RonaCard, Visual Score)
+pillow
+
+# --- Runtime TFLite (pilih SATU) ---
+# Disarankan: LiteRT. tf.lite.Interpreter ditandai deprecated pada TF 2.20 (peringatan ada di output notebook CV).
+ai-edge-litert
+# tensorflow            # alternatif bila ai-edge-litert tidak tersedia untuk versi Python Anda

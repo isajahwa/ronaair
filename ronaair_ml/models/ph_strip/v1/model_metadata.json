@@ -1,0 +1,102 @@
+{
+  "model_version": "ronair-ph-1.0.0",
+  "training_date": "2026-09-17T10:17:05+00:00",
+  "finished_date": "2026-09-17T10:17:48+00:00",
+  "random_state": 42,
+  "final_model": "PolynomialRidge2",
+  "final_feature_set": "COMBINED_ALL",
+  "feature_list": [
+    "R_mean",
+    "R_std",
+    "G_mean",
+    "G_std",
+    "B_mean",
+    "B_std",
+    "rn_mean",
+    "rn_std",
+    "gn_mean",
+    "gn_std",
+    "bn_mean",
+    "bn_std",
+    "H_mean",
+    "H_std",
+    "S_mean",
+    "S_std",
+    "V_mean",
+    "V_std",
+    "L_mean",
+    "L_std",
+    "a_mean",
+    "a_std",
+    "blab_mean",
+    "blab_std"
+  ],
+  "selection_metric": "group-aware 5-fold CV MAE on the training split",
+  "selection_cv_MAE": 0.3597993918458268,
+  "validation_MAE": 0.17485208985392245,
+  "test_metrics": {
+    "MAE": 0.2904760126668356,
+    "RMSE": 0.3620803323779823,
+    "R2": 0.8809061875547901,
+    "within_0.25": 48.78048780487805,
+    "within_0.5": 85.36585365853658,
+    "within_1.0": 100.0
+  },
+  "n_train": 214,
+  "n_val": 74,
+  "n_test": 41,
+  "n_train_plus_val": 288,
+  "n_groups_total": 92,
+  "ph_range": {
+    "train": [
+      5.016,
+      8.552
+    ],
+    "validation": [
+      5.005,
+      8.565
+    ],
+    "test": [
+      5.0,
+      8.506
+    ]
+  },
+  "datasets_used": [
+    "A_pH_test_dataset"
+  ],
+  "subsets_used": [
+    "benchmark_test",
+    "benchmark_train",
+    "blue",
+    "iphone6p_test",
+    "iphone6p_train",
+    "red",
+    "samsung_j5_test",
+    "samsung_j5_train",
+    "samsung_s7_test",
+    "samsung_s7_train",
+    "training"
+  ],
+  "domain_held_out": [
+    "milk",
+    "wine_testing",
+    "wine_training"
+  ],
+  "out_of_domain_metrics": {
+    "MAE": 2.02177035865682,
+    "RMSE": 2.5717369300214603,
+    "R2": -2.8389305994386995,
+    "within_0.25": 21.428571428571427,
+    "within_0.5": 38.095238095238095,
+    "within_1.0": 42.857142857142854
+  },
+  "library_versions": {
+    "python": "3.12.3",
+    "numpy": "2.4.4",
+    "pandas": "3.0.2",
+    "opencv": "4.13.0",
+    "sklearn": "1.8.0",
+    "tensorflow": "not installed",
+    "xgboost": "not installed"
+  }
+}

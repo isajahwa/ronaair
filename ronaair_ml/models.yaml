@@ -1,0 +1,283 @@
+# ==============================================================================
+# models.yaml - REGISTRY model RonaAir (ronaair_ml)
+# ------------------------------------------------------------------------------
+# Sumber kebenaran untuk: model apa saja yang ada, versi aktifnya, file artefak
+# yang wajib ada, kontrak input/output, dan bagaimana keluaran antar-model
+# digabungkan. Isi diturunkan dari 4 notebook training (lihat ARTIFACTS.md).
+#
+# Aturan:
+#  - Menambah model baru  : buat folder models/<id>/vN + MODEL_SPEC.md + entri di sini.
+#  - Ganti versi          : ubah `active_version` (folder versi lama JANGAN dihapus).
+#  - Nama file artefak    : dipertahankan persis seperti yang dihasilkan notebook.
+#  - Angka metrik di sini : berasal dari output eksekusi notebook. Bila tidak ada
+#                           outputnya di file .ipynb yang diunggah, ditulis `null`
+#                           (BUKAN dikarang). Isi dari model_metadata.json asli.
+# ==============================================================================
+registry_version: 1
+project: RonaAir
+purpose: >
+  Sistem peringatan dini (early warning) & decision support kualitas air kolam ikan
+  air tawar. BUKAN detektor spesies alga, BUKAN pengukur toksin, BUKAN pengganti lab.
+
+service:
+  name: ronaair_ml
+  framework: fastapi            # dibuat pada tahap 2 (lihat README.md)
+  default_port: 8000
+  called_by: ronaair_backend    # Go memanggil layanan ini; Flutter TIDAK memanggil langsung
+  artifact_root: models         # models/<model_id>/<active_version>/<file>
+
+# Urutan eksekusi satu sesi pemeriksaan (check_session)
+pipeline:
+  order: [do_soft_sensor, ph_strip, cv_water_visual, risk_fusion]
+  # Bagaimana masing-masing kolom input risk_fusion diisi.
+  fusion_inputs:
+    water_temp:       {from: "sensor ESP32", unit: degC,   required: true}
+    ph_sensor:        {from: "sensor ESP32", unit: pH,     required: true}
+    ec_value:         {from: "sensor ESP32", unit: uS/cm,  required: false}
+    tds_ppm:          {from: "sensor ESP32 (turunan EC)", unit: ppm, required: false}
+    hour:             {from: "jam perangkat/server", unit: "0-23", required: false}
+    do_est:           {from: "do_soft_sensor.do_mgl", unit: mg/L, required: false,
+                       label_ui: "Estimated DO"}
+    ph_visual_est:    {from: "ph_strip.estimated_pH", unit: pH, required: false}
+    visual_score:     {from: "cv_water_visual.visual_score", transform: "divide_by_100",
+                       note: "CV menghasilkan 0-100, rule engine memakai 0-1. WAJIB dikonversi."}
+    visual_condition: {from: "cv_water_visual.predicted_class", required: false,
+                       note: "Hanya untuk penjelasan, bukan keputusan."}
+    image_quality:    {from: "quality gate foto (OK|FAIL)", required: false,
+                       note: "Aturan pemetaan ke OK/FAIL belum didefinisikan di notebook - lihat INTEGRATION_NOTES.md #9"}
+
+models:
+
+  # ----------------------------------------------------------------------------
+  do_soft_sensor:
+    title: "Soft sensor Dissolved Oxygen (XGBoost + fitur fisika)"
+    kind: tabular_regression
+    role: fusion_input                 # menghasilkan do_est
+    status: active_limited             # boleh dipakai, validitas TERBATAS (lihat notes)
+    active_version: v1
+    artifact_dir: models/do_soft_sensor/v1
+    spec: models/do_soft_sensor/MODEL_SPEC.md
+    source_notebook: RonaAir_DO_XGBoost_Final.ipynb
+    model_name: RonaAir_DO_SoftSensor_XGBoost
+    endpoint: {method: POST, path: /predict/do}
+    runtime:
+      language: python
+      loader: app.compat.load_do_pipeline     # WAJIB: pipeline memuat kelas kustom dari notebook
+      libs: [scikit-learn, xgboost, joblib, pandas, numpy]
+      pin_versions_from: env_versions.json    # jalankan scripts/print_env_versions.py di Colab
+    artifacts:
+      required:
+        - {file: ronaair_do_xgboost_final.joblib, role: model, approx_size_kb: 3417}
+        - {file: feature_schema.json,             role: input_contract}
+      recommended:
+        - {file: model_metadata.json, role: metrics_and_hyperparameters}
+        - {file: model_card.md,       role: documentation}
+      reference_only:                     # jangan dipakai langsung di produksi
+        - {file: test_inference.py, why: "path Colab ter-hardcode & tidak mendefinisikan kelas kustom -> gagal dimuat di luar notebook"}
+        - {file: executive_decision_report.txt, why: "narasi lomba/juri"}
+    input:
+      columns_in_order: [temp_c, ph, turbidity_ntu, hour_sin, hour_cos, month_sin, month_cos]
+      from_api:
+        temp_c:        {type: float, unit: degC, valid: [10.0, 40.0]}
+        ph:            {type: float, unit: pH,   valid: [4.0, 10.5]}
+        turbidity_ntu: {type: float, unit: NTU,  nullable: true,
+                        note: "ESP32 RonaAir tidak punya sensor turbidity -> umumnya null (diimputasi median training)"}
+        timestamp:     {type: datetime, note: "diubah menjadi hour_sin/cos & month_sin/cos"}
+      derived: "hour=h+min/60; hour_sin/cos=sin/cos(2*pi*hour/24); month_sin/cos=sin/cos(2*pi*month/12)"
+    output:
+      do_mgl: {type: float, unit: "mg/L", ui_label: "Estimated DO", plausible: [0.0, 25.0]}
+    metrics:                              # dari output eksekusi notebook
+      random_split_test: {r2: 0.4244, mae_mgl: 3.0011, rmse_mgl: 4.0794}
+      baseline_mean:     {r2: -0.0002, mae_mgl: 4.4871}
+      baseline_mlr:      {r2: 0.2721,  mae_mgl: 3.5662}
+      leave_one_source_out_r2: {fishpond_multiclass: -2.3424, aquaponds: -0.3246, smart_aquaculture_dashboard: -1.3961}
+      out_of_domain_r2_soapstone: -238.25
+      rows: {total_clean: 55472, train: 38830, val: 8321, test: 8321}
+    notes:
+      - "R2 random-split hanya 0.42; pada sumber data yang belum pernah dilihat R2 NEGATIF."
+      - "month_sin+month_cos = ~68% feature importance -> model banyak 'menghafal' musim/sumber data."
+      - "Tampilkan selalu sebagai 'Estimated DO', jangan 'Measured DO'."
+
+  # ----------------------------------------------------------------------------
+  ph_strip:
+    title: "Estimasi pH dari foto pH strip (regresi warna)"
+    kind: image_regression_classical
+    role: fusion_input                 # menghasilkan ph_visual_est (kanal kedua pH)
+    status: active_unverified          # notebook yang diunggah TIDAK punya output eksekusi
+    active_version: v1
+    artifact_dir: models/ph_strip/v1
+    spec: models/ph_strip/MODEL_SPEC.md
+    source_notebook: RonaAir_pH_Strip_AI_Colab.ipynb
+    model_version: ronair-ph-1.0.0
+    expected_final_model: PolynomialRidge2       # menurut catatan notebook fusion; verifikasi via model_metadata.json
+    expected_feature_set: COMBINED_ALL           # 24 fitur
+    endpoint: {method: POST, path: /predict/ph-strip, content_type: multipart/form-data}
+    runtime:
+      language: python
+      libs: [opencv-python-headless, numpy]      # cukup JSON koefisien; sklearn hanya bila memakai final_model.joblib
+      preferred_artifact: model_coefficients.json
+    artifacts:
+      required:
+        - {file: model_coefficients.json,   role: model,            note: "JSON murni: scaler + polinomial derajat-2 + koefisien"}
+        - {file: feature_schema.json,       role: input_contract}
+        - {file: preprocessing_config.json, role: quality_and_roi_rules}
+        - {file: model_metadata.json,       role: metrics_and_validated_ph_range}
+      recommended:
+        - {file: model_card.md,     role: documentation}
+        - {file: final_summary.json, role: metrics, note: "ada di results/ pada Colab"}
+      fallback:
+        - {file: final_model.joblib, why: "sklearn Pipeline; hanya jika versi scikit-learn sama dengan training"}
+      not_used:
+        - {file: PhPredictor.kt,   why: "untuk Android native; Flutter+Go memakai layanan Python"}
+        - {file: scaler.joblib,    why: "sudah ada di model_coefficients.json"}
+        - {file: test_inference.py, why: "smoke test paket deployment"}
+    input:
+      image: {formats: [jpg, jpeg, png, bmp, webp], content: "foto pH strip (BUKAN foto air kolam)"}
+      feature_order: "R,G,B,rn,gn,bn,H,S,V,L,a,blab  x  (mean,std)  = 24 fitur  (urutan resmi ada di feature_schema.json)"
+      roi_at_inference: "opencv_saturation_segmentation -> center_crop_fallback (anotasi dataset tidak tersedia saat inferensi)"
+      quality_gate: {min_brightness: 25.0, max_brightness: 245.0, min_contrast: 8.0, min_blur_score: 15.0, min_roi_pixels: 80, max_roi_saturation_zero: 0.98}
+    output:
+      estimated_pH: {type: float_or_null, note: "null bila image_quality_status == REJECT"}
+      image_quality_status: {values: [GOOD, WARN, REJECT]}
+      quality_reasons: string
+      validated_pH_range: {type: "[lo, hi]", from: model_metadata.json}
+      warnings: "array<string>"
+    metrics: {test_mae: null, test_rmse: null, test_r2: null, note: "isi dari model_metadata.json hasil run Anda"}
+    notes:
+      - "Model hanya valid pada rentang pH data latih; di luar itu WAJIB menampilkan peringatan, bukan ekstrapolasi diam-diam."
+      - "Tidak ada probabilitas/kepercayaan terkalibrasi - hanya estimasi titik."
+
+  # ----------------------------------------------------------------------------
+  cv_water_visual:
+    title: "Skrining visual air: MobileNetV3-Small + Visual Score warna"
+    kind: image_classification_plus_color_descriptor
+    role: fusion_input                 # menghasilkan visual_score & visual_condition
+    status: active_limited             # kelas terlatih = label folder mentah (31 kelas)
+    active_version: v1
+    artifact_dir: models/cv_water_visual/v1
+    spec: models/cv_water_visual/MODEL_SPEC.md
+    source_notebook: Copy_of_RonaAir_CV_RGB_DeepLearning_FINAL.ipynb
+    endpoint: {method: POST, path: /predict/water-visual, content_type: multipart/form-data}
+    runtime:
+      language: python
+      tflite_runtime: "ai-edge-litert (disarankan) atau tensorflow"
+      libs: [opencv-python-headless, numpy, pillow]
+    artifacts:
+      required:
+        - {file: ronair_cv_classifier.tflite, role: model, approx_size_mb: 1.13, quantization: dynamic}
+        - {file: model_metadata.json,         role: class_names_metrics_visual_score_definition}
+      recommended:
+        - {file: android_deployment_runtime.json, role: runtime_config, note: "ada di 06_configs/ pada Colab"}
+        - {file: classification_report.csv, role: per_class_metrics}
+        - {file: confusion_matrix.csv,      role: confusion_matrix}
+        - {file: label_mapping_table.csv,   role: label_audit}
+      optional:
+        - {file: ronair_cv_classifier_int8.tflite, why: "Inferensi INT8 GAGAL dijalankan di Colab (XNNPACK error). Jangan dipakai sebelum diuji ulang."}
+        - {file: ronair_mobilenetv3_small_feature_extractor.tflite, why: "embedding; tidak dibutuhkan fusion"}
+        - {file: ronair_cv_classifier.keras, why: "cadangan untuk retraining/konversi ulang (9.15 MB)"}
+      not_used:
+        - {file: ronair_mobilenetv3_small_feature_extractor.keras, why: "tidak dibutuhkan"}
+        - {file: best_head.keras,       why: "checkpoint training"}
+        - {file: best_finetuned.keras,  why: "checkpoint training"}
+    input:
+      image: "foto air kolam (idealnya dengan RonaCard netral untuk kalibrasi warna)"
+      model_tensor: {shape: [1, 224, 224, 3], dtype: float32, range: "0-255 (RGB)", note: "preprocess_input ada DI DALAM graph; decode RGB, resize 224x224 bilinear antialias. Verifikasi dengan scripts/inspect_tflite.py"}
+    output:
+      predicted_class: {type: string, note: "salah satu dari 31 label folder; lihat labels di model_metadata.json"}
+      confidence: {type: float, range: [0, 1], note: "softmax; bukan probabilitas risiko"}
+      visual_score: {type: float, range: [0, 100], source: "OpenCV compute_visual_score (deterministik), BUKAN keluaran TFLite"}
+      color_block: "mean RGB / normalized RGB / HSV / CIELAB pada ROI air"
+    metrics:
+      classes: 31
+      split_images: {train: 15809, val: 3303, test: 3267}
+      accuracy: 0.8053
+      macro_f1: 0.1521
+      weighted_f1: 0.8384
+      macro_precision: 0.1387
+      macro_recall: 0.2226
+      error_rate: 0.1947
+      leakage_check: OK
+      tflite_latency_ms_colab: 5.01      # bukan di perangkat target
+    notes:
+      - "Akurasi 80.5% didominasi 3 kelas besar (water_good, water_bad, other); 28 kelas lain (27 folder foto algal bloom Swedia per lokasi + 1 folder 'Kommunens_bilder' yang isinya tak terdokumentasi) hampir tak terdeteksi (macro F1 0.15)."
+      - "Empat status RonaAir (NORMAL/WASPADA/SIAGA/DARURAT) TIDAK dilatih dari foto."
+      - "Klaim yang benar: 'skrining visual warna & kepekatan air'. Bukan deteksi spesies alga / toksin."
+
+  # ----------------------------------------------------------------------------
+  risk_fusion:
+    title: "Decision Fusion & Risk AI (rule engine + benchmark ML)"
+    kind: rule_engine_with_ml_benchmark
+    role: final_decision
+    status: active_provisional         # seluruh threshold & rekomendasi berstatus PROVISIONAL
+    active_version: v1
+    artifact_dir: models/risk_fusion/v1
+    spec: models/risk_fusion/MODEL_SPEC.md
+    source_notebook: RonaAir_Decision_Fusion_Risk_AI.ipynb
+    model_version: ronair-risk-ai-1.0.0
+    endpoint: {method: POST, path: /assess}
+    runtime:
+      language: python
+      libs: [pyyaml, numpy]                   # rule engine murni; sklearn hanya untuk benchmark opsional
+    decision_source: RULE_ENGINE_LEVEL_1       # produksi = rule engine, BUKAN model ML
+    artifacts:
+      required:
+        - {file: risk_rules.json,            role: rules,           note: "dari configs/ pada notebook"}
+        - {file: recommendation_rules.json,  role: recommendations, note: "configs/ atau deployment/ (identik)"}
+        - {file: risk_input_schema.json,     role: input_contract,  note: "deployment/"}
+        - {file: risk_output_schema.json,    role: output_contract, note: "deployment/"}
+      recommended:
+        - {file: risk_cost_matrix.json,  role: cost_matrix}
+        - {file: risk_model_card.md,     role: documentation}
+        - {file: risk_model_report.md,   role: technical_report, note: "results/"}
+      benchmark_optional:                     # eksperimental, bukan keputusan produksi
+        - {file: risk_model.joblib}
+        - {file: risk_preprocessor.joblib}
+        - {file: risk_model_parameters.json}
+        - {file: risk_feature_schema.json}
+        - {file: risk_model_metadata.json}
+      not_used:
+        - {file: RiskEngine.kt, why: "versi Kotlin untuk Android native; dipakai sebagai referensi logika saja"}
+    rules:
+      aggregation: MAX_SEVERITY
+      severity_order: [NORMAL, WASPADA, SIAGA, DARURAT]
+      extra_status: INSUFFICIENT_EVIDENCE
+      required_inputs: [water_temp, ph_sensor]
+      high_value_inputs: [do_est, visual_score]     # minimal salah satu
+      table:                                        # ringkasan configs/risk_rules.json (semua PROVISIONAL)
+        R001: {param: do_est,        op: "<",  value: 2.0,  level: DARURAT}
+        R002: {param: do_est,        op: "<",  value: 3.0,  level: SIAGA}
+        R003: {param: do_est,        op: "<",  value: 5.0,  level: WASPADA}
+        R010: {param: ph_sensor,     op: "<",  value: 5.5,  level: DARURAT}
+        R011: {param: ph_sensor,     op: ">",  value: 9.5,  level: DARURAT}
+        R012: {param: ph_sensor,     op: "<",  value: 6.5,  level: SIAGA}
+        R013: {param: ph_sensor,     op: ">",  value: 9.0,  level: SIAGA}
+        R020: {param: water_temp,    op: ">",  value: 34.0, level: SIAGA}
+        R021: {param: water_temp,    op: "<",  value: 20.0, level: WASPADA}
+        R030: {param: visual_score,  op: ">=", value: 0.75, level: SIAGA,   scale: "0-1"}
+        R031: {param: visual_score,  op: ">=", value: 0.50, level: WASPADA, scale: "0-1"}
+        R040: {param: ph_difference, op: ">",  value: 1.0,  level: WASPADA, note: "|ph_visual_est - ph_sensor|; sinyal kualitas data"}
+      plausibility_ranges:
+        ph_sensor: [0.0, 14.0]
+        water_temp: [0.0, 45.0]
+        do_est: [0.0, 25.0]
+        ec_value: [0.0, 100000.0]
+        tds_ppm: [0.0, 50000.0]
+        visual_score: [0.0, 1.0]
+    output:
+      fields: [risk_status, supporting_factors, fired_rules, data_quality, out_of_distribution_notes,
+               recommendations, explanation, model_version, timestamp, decision_source]
+      risk_status_values: [NORMAL, WASPADA, SIAGA, DARURAT, INSUFFICIENT_EVIDENCE]
+      data_quality_values: [OK, DEGRADED, POSSIBLE_OUT_OF_DISTRIBUTION, INSUFFICIENT_EVIDENCE]
+      risk_probability: "SENGAJA tidak ada - jangan ditampilkan sebagai 'peluang bahaya'"
+    metrics:
+      benchmark_model: DecisionTree_d6
+      benchmark_feature_set: "A_sensor_only [water_temp, ph_sensor, ec_value, tds_ppm, do_est]"
+      test_macro_f1: 0.9928
+      test_balanced_accuracy: 0.9929
+      high_risk_recall: 0.9941
+      high_risk_false_negatives: 1
+      rule_engine_vs_d2_label_agreement: 0.7622
+      external_validation: NOT_AVAILABLE
+    notes:
+      - "Skor benchmark ~0.99 karena label dataset D2 direproduksi 1.0000 dari SATU parameter (turbidity): model meniru aturan, bukan memprediksi risiko biologis."
+      - "Tidak ada validasi eksternal; tidak ada data kolam Indonesia. Semua threshold PROVISIONAL sampai divalidasi pakar."

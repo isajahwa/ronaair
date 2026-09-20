@@ -1,0 +1,230 @@
+{
+  "schema_version": "1.0.0",
+  "model_version": "ronair-risk-ai-1.0.0",
+  "generated_at": "2026-09-18 01:24:26",
+  "severity_order": [
+    "NORMAL",
+    "WASPADA",
+    "SIAGA",
+    "DARURAT"
+  ],
+  "aggregation": "MAX_SEVERITY — status akhir = tingkat tertinggi di antara rule yang aktif",
+  "global_notes": [
+    "Seluruh threshold berstatus PROVISIONAL sampai divalidasi pakar/lapangan.",
+    "do_est adalah ESTIMATED DO (soft-sensor), bukan measured DO.",
+    "Rule ini adalah decision support, bukan diagnosis biologis maupun jaminan keselamatan."
+  ],
+  "rules": [
+    {
+      "rule_id": "R001",
+      "parameter": "do_est",
+      "operator": "<",
+      "threshold": 2.0,
+      "unit": "mg/L",
+      "risk_level": "DARURAT",
+      "source": "Praktik umum budidaya air tawar (nilai pengajaran/penyuluhan). BELUM diverifikasi terhadap SOP spesifik komoditas/lokasi di dalam notebook ini.",
+      "source_type": "literature/expert",
+      "validation_status": "PROVISIONAL",
+      "notes": "Hipoksia berat; risiko kematian massal. Berlaku pada ESTIMATED DO -> perlu konfirmasi sensor."
+    },
+    {
+      "rule_id": "R002",
+      "parameter": "do_est",
+      "operator": "<",
+      "threshold": 3.0,
+      "unit": "mg/L",
+      "risk_level": "SIAGA",
+      "source": "Praktik umum budidaya air tawar (nilai pengajaran/penyuluhan). BELUM diverifikasi terhadap SOP spesifik komoditas/lokasi di dalam notebook ini.",
+      "source_type": "literature/expert",
+      "validation_status": "PROVISIONAL",
+      "notes": "DO rendah; stres pernapasan."
+    },
+    {
+      "rule_id": "R003",
+      "parameter": "do_est",
+      "operator": "<",
+      "threshold": 5.0,
+      "unit": "mg/L",
+      "risk_level": "WASPADA",
+      "source": "Praktik umum budidaya air tawar (nilai pengajaran/penyuluhan). BELUM diverifikasi terhadap SOP spesifik komoditas/lokasi di dalam notebook ini.",
+      "source_type": "literature/expert",
+      "validation_status": "PROVISIONAL",
+      "notes": "Di bawah kisaran nyaman umum."
+    },
+    {
+      "rule_id": "R010",
+      "parameter": "ph_sensor",
+      "operator": "<",
+      "threshold": 5.5,
+      "unit": "pH",
+      "risk_level": "DARURAT",
+      "source": "Praktik umum budidaya air tawar (nilai pengajaran/penyuluhan). BELUM diverifikasi terhadap SOP spesifik komoditas/lokasi di dalam notebook ini.",
+      "source_type": "literature/expert",
+      "validation_status": "PROVISIONAL",
+      "notes": "Asam ekstrem."
+    },
+    {
+      "rule_id": "R011",
+      "parameter": "ph_sensor",
+      "operator": ">",
+      "threshold": 9.5,
+      "unit": "pH",
+      "risk_level": "DARURAT",
+      "source": "Praktik umum budidaya air tawar (nilai pengajaran/penyuluhan). BELUM diverifikasi terhadap SOP spesifik komoditas/lokasi di dalam notebook ini.",
+      "source_type": "literature/expert",
+      "validation_status": "PROVISIONAL",
+      "notes": "Basa ekstrem; risiko amonia tak terionisasi meningkat."
+    },
+    {
+      "rule_id": "R012",
+      "parameter": "ph_sensor",
+      "operator": "<",
+      "threshold": 6.5,
+      "unit": "pH",
+      "risk_level": "SIAGA",
+      "source": "Praktik umum budidaya air tawar (nilai pengajaran/penyuluhan). BELUM diverifikasi terhadap SOP spesifik komoditas/lokasi di dalam notebook ini.",
+      "source_type": "literature/expert",
+      "validation_status": "PROVISIONAL",
+      "notes": "Di bawah kisaran umum."
+    },
+    {
+      "rule_id": "R013",
+      "parameter": "ph_sensor",
+      "operator": ">",
+      "threshold": 9.0,
+      "unit": "pH",
+      "risk_level": "SIAGA",
+      "source": "Praktik umum budidaya air tawar (nilai pengajaran/penyuluhan). BELUM diverifikasi terhadap SOP spesifik komoditas/lokasi di dalam notebook ini.",
+      "source_type": "literature/expert",
+      "validation_status": "PROVISIONAL",
+      "notes": "Di atas kisaran umum."
+    },
+    {
+      "rule_id": "R020",
+      "parameter": "water_temp",
+      "operator": ">",
+      "threshold": 34.0,
+      "unit": "degC",
+      "risk_level": "SIAGA",
+      "source": "Praktik umum budidaya air tawar (nilai pengajaran/penyuluhan). BELUM diverifikasi terhadap SOP spesifik komoditas/lokasi di dalam notebook ini.",
+      "source_type": "literature/expert",
+      "validation_status": "PROVISIONAL",
+      "notes": "Suhu tinggi menurunkan kelarutan oksigen dan menaikkan laju metabolik."
+    },
+    {
+      "rule_id": "R021",
+      "parameter": "water_temp",
+      "operator": "<",
+      "threshold": 20.0,
+      "unit": "degC",
+      "risk_level": "WASPADA",
+      "source": "Praktik umum budidaya air tawar (nilai pengajaran/penyuluhan). BELUM diverifikasi terhadap SOP spesifik komoditas/lokasi di dalam notebook ini.",
+      "source_type": "literature/expert",
+      "validation_status": "PROVISIONAL",
+      "notes": "Suhu rendah menekan nafsu makan (spesies tropis)."
+    },
+    {
+      "rule_id": "R030",
+      "parameter": "visual_score",
+      "operator": ">=",
+      "threshold": 0.75,
+      "unit": "skor 0-1",
+      "risk_level": "SIAGA",
+      "source": "Kanal CV RonaAir (skala model internal)",
+      "source_type": "provisional",
+      "validation_status": "PROVISIONAL",
+      "notes": "Indikator visual saja. TIDAK boleh diklaim sebagai spesies alga atau konsentrasi toksin."
+    },
+    {
+      "rule_id": "R031",
+      "parameter": "visual_score",
+      "operator": ">=",
+      "threshold": 0.5,
+      "unit": "skor 0-1",
+      "risk_level": "WASPADA",
+      "source": "Kanal CV RonaAir",
+      "source_type": "provisional",
+      "validation_status": "PROVISIONAL",
+      "notes": "Perubahan rona air terdeteksi."
+    },
+    {
+      "rule_id": "R040",
+      "parameter": "ph_difference",
+      "operator": ">",
+      "threshold": 1.0,
+      "unit": "pH",
+      "risk_level": "WASPADA",
+      "source": "Selisih antar-kanal (pH foto vs pH sensor)",
+      "source_type": "provisional",
+      "validation_status": "PROVISIONAL",
+      "notes": "Ketidaksepakatan dua kanal -> kemungkinan sensor drift atau kualitas foto buruk. Ini adalah sinyal KUALITAS DATA, bukan bukti bahaya biologis."
+    }
+  ],
+  "plausibility_ranges": {
+    "ph_sensor": [
+      0.0,
+      14.0
+    ],
+    "water_temp": [
+      0.0,
+      45.0
+    ],
+    "do_est": [
+      0.0,
+      25.0
+    ],
+    "ec_value": [
+      0.0,
+      100000.0
+    ],
+    "tds_ppm": [
+      0.0,
+      50000.0
+    ],
+    "visual_score": [
+      0.0,
+      1.0
+    ]
+  },
+  "empirical_operating_envelope": {
+    "ph_sensor": {
+      "source_dataset": "D4_AQUAPONIC_IOT (raw, pembacaan non-fisik dibuang)",
+      "n": 505511,
+      "p01": 5.56,
+      "p05": 5.79,
+      "median": 7.84,
+      "p95": 10.17,
+      "p99": 11.24,
+      "min": 5.51,
+      "max": 14.0,
+      "abs_delta_5min_p99": 1.0809,
+      "abs_delta_5min_median": 0.089
+    },
+    "water_temp": {
+      "source_dataset": "D4_AQUAPONIC_IOT (raw, pembacaan non-fisik dibuang)",
+      "n": 505511,
+      "p01": 22.0,
+      "p05": 22.63,
+      "median": 24.19,
+      "p95": 25.88,
+      "p99": 26.69,
+      "min": 21.63,
+      "max": 27.19,
+      "abs_delta_5min_p99": 0.07,
+      "abs_delta_5min_median": 0.0037
+    },
+    "tds_ppm": {
+      "source_dataset": "D4_AQUAPONIC_IOT (raw, pembacaan non-fisik dibuang)",
+      "n": 505511,
+      "p01": 268.0,
+      "p05": 296.0,
+      "median": 342.0,
+      "p95": 574.0,
+      "p99": 1028.0,
+      "min": 200.0,
+      "max": 1813.0,
+      "abs_delta_5min_p99": 355.46,
+      "abs_delta_5min_median": 12.7625
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0.0",
+  "model_version": "ronair-risk-ai-1.0.0",
+  "generated_at": "2026-09-18 01:24:58",
+  "engine_type": "deterministic rule table (BUKAN LLM generatif)",
+  "global_status": "PROVISIONAL",
+  "disclaimer": "Rekomendasi bersifat decision support. Bukan kepastian medis, bukan jaminan keselamatan, dan bukan pengganti penilaian ahli budidaya.",
+  "recommendations": [
+    {
+      "recommendation_id": "RISK_000",
+      "risk_status": "INSUFFICIENT_EVIDENCE",
+      "trigger_condition": "parameter wajib hilang ATAU foto gagal quality check",
+      "action": "Jangan mengambil kesimpulan. Ulangi pengukuran: periksa koneksi sensor, bersihkan probe, dan ambil ulang foto sesuai panduan pencahayaan RonaCard.",
+      "priority": 1,
+      "contraindication": "Tidak ada.",
+      "recheck_after_minutes": 15,
+      "source": "Belum ditautkan ke SOP tertulis. Wajib divalidasi oleh penyuluh/ahli budidaya sebelum dipakai di lapangan.",
+      "validation_status": "NEEDS_EXPERT_VALIDATION"
+    },
+    {
+      "recommendation_id": "RISK_001",
+      "risk_status": "NORMAL",
+      "trigger_condition": "tidak ada rule risiko yang aktif",
+      "action": "Lanjutkan pemantauan rutin sesuai jadwal SOP tambak.",
+      "priority": 4,
+      "contraindication": "Tidak ada.",
+      "recheck_after_minutes": 360,
+      "source": "Belum ditautkan ke SOP tertulis. Wajib divalidasi oleh penyuluh/ahli budidaya sebelum dipakai di lapangan.",
+      "validation_status": "NEEDS_EXPERT_VALIDATION"
+    },
+    {
+      "recommendation_id": "RISK_002",
+      "risk_status": "WASPADA",
+      "trigger_condition": "minimal satu rule tingkat WASPADA aktif",
+      "action": "Periksa ulang kualitas air dan evaluasi pemberian pakan sesuai SOP. Perpendek interval pemantauan.",
+      "priority": 3,
+      "contraindication": "Jangan mengubah kimia air hanya berdasarkan satu pembacaan.",
+      "recheck_after_minutes": 120,
+      "source": "Belum ditautkan ke SOP tertulis. Wajib divalidasi oleh penyuluh/ahli budidaya sebelum dipakai di lapangan.",
+      "validation_status": "NEEDS_EXPERT_VALIDATION"
+    },
+    {
+      "recommendation_id": "RISK_003",
+      "risk_status": "SIAGA",
+      "trigger_condition": "minimal satu rule tingkat SIAGA aktif",
+      "action": "Verifikasi pembacaan dengan alat ukur pembanding, siapkan aerasi tambahan, dan tinjau tindakan korektif sesuai SOP tambak.",
+      "priority": 2,
+      "contraindication": "Hindari pergantian air besar mendadak tanpa mengukur suhu dan pH air pengganti.",
+      "recheck_after_minutes": 30,
+      "source": "Belum ditautkan ke SOP tertulis. Wajib divalidasi oleh penyuluh/ahli budidaya sebelum dipakai di lapangan.",
+      "validation_status": "NEEDS_EXPERT_VALIDATION"
+    },
+    {
+      "recommendation_id": "RISK_004",
+      "risk_status": "DARURAT",
+      "trigger_condition": "minimal satu rule tingkat DARURAT aktif",
+      "action": "Tangani segera sesuai SOP kedaruratan tambak dan hubungi penyuluh/teknisi. Verifikasi ulang pembacaan sambil menyiapkan aerasi darurat.",
+      "priority": 1,
+      "contraindication": "Jangan menunda tindakan hanya untuk menunggu konfirmasi laboratorium.",
+      "recheck_after_minutes": 10,
+      "source": "Belum ditautkan ke SOP tertulis. Wajib divalidasi oleh penyuluh/ahli budidaya sebelum dipakai di lapangan.",
+      "validation_status": "NEEDS_EXPERT_VALIDATION"
+    }
+  ],
+  "trigger_specific": [
+    {
+      "recommendation_id": "TRG_DO_LOW",
+      "trigger_rules": [
+        "R001",
+        "R002",
+        "R003"
+      ],
+      "action": "Bukti menunjuk oksigen terlarut rendah (ESTIMATED DO, bukan hasil ukur langsung). Konfirmasi dengan DO meter bila ada, dan periksa aerator.",
+      "contraindication": "Estimasi DO belum tervalidasi terhadap DO meter; jangan dipakai sebagai satu-satunya dasar keputusan besar.",
+      "source": "Belum ditautkan ke SOP tertulis. Wajib divalidasi oleh penyuluh/ahli budidaya sebelum dipakai di lapangan.",
+      "validation_status": "NEEDS_EXPERT_VALIDATION"
+    },
+    {
+      "recommendation_id": "TRG_PH_EXTREME",
+      "trigger_rules": [
+        "R010",
+        "R011",
+        "R012",
+        "R013"
+      ],
+      "action": "Bukti menunjuk pH di luar kisaran umum. Kalibrasi ulang probe pH sebelum melakukan tindakan kimia apa pun.",
+      "contraindication": "Jangan menambahkan kapur/asam tanpa SOP dan pengukuran ulang.",
+      "source": "Belum ditautkan ke SOP tertulis. Wajib divalidasi oleh penyuluh/ahli budidaya sebelum dipakai di lapangan.",
+      "validation_status": "NEEDS_EXPERT_VALIDATION"
+    },
+    {
+      "recommendation_id": "TRG_TEMP",
+      "trigger_rules": [
+        "R020",
+        "R021"
+      ],
+      "action": "Suhu air di luar kisaran nyaman. Tinjau naungan, kedalaman, dan jadwal pakan.",
+      "contraindication": "Tidak ada.",
+      "source": "Belum ditautkan ke SOP tertulis. Wajib divalidasi oleh penyuluh/ahli budidaya sebelum dipakai di lapangan.",
+      "validation_status": "NEEDS_EXPERT_VALIDATION"
+    },
+    {
+      "recommendation_id": "TRG_VISUAL",
+      "trigger_rules": [
+        "R030",
+        "R031"
+      ],
+      "action": "Rona air berubah. Ini indikator VISUAL saja — tidak menunjukkan spesies alga maupun konsentrasi toksin. Amati ulang pada pencahayaan yang sama.",
+      "contraindication": "Dilarang menyimpulkan HAB atau toksisitas dari foto.",
+      "source": "Belum ditautkan ke SOP tertulis. Wajib divalidasi oleh penyuluh/ahli budidaya sebelum dipakai di lapangan.",
+      "validation_status": "NEEDS_EXPERT_VALIDATION"
+    },
+    {
+      "recommendation_id": "TRG_PH_DISAGREE",
+      "trigger_rules": [
+        "R040"
+      ],
+      "action": "pH dari foto dan pH sensor tidak sepakat. Ini sinyal KUALITAS DATA: kalibrasi ulang probe dan foto ulang strip pada pencahayaan yang benar.",
+      "contraindication": "Jangan menganggap salah satu nilai otomatis benar.",
+      "source": "Belum ditautkan ke SOP tertulis. Wajib divalidasi oleh penyuluh/ahli budidaya sebelum dipakai di lapangan.",
+      "validation_status": "NEEDS_EXPERT_VALIDATION"
+    }
+  ]
+}

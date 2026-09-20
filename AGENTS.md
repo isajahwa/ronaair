@@ -1,0 +1,12 @@
+## Aturan ronaair_ml (wajib dipatuhi agent)
+- Sumber kebenaran model: ronaair_ml/models.yaml dan ronaair_ml/models/*/MODEL_SPEC.md. Baca sebelum mengubah apa pun.
+- JANGAN mengarang metrik/angka. Ambil dari model_metadata.json; bila tidak ada, tulis "tidak tersedia".
+- Urutan fitur diambil dari feature_schema.json / models.yaml. JANGAN mengubah urutan atau rumus fitur.
+- Pipeline DO WAJIB dimuat lewat app.compat.load_do_pipeline (kelas kustom dari notebook).
+- visual_score dari modul CV berskala 0-100; bagi 100 sebelum masuk risk_fusion (skala 0-1).
+- Keputusan risiko = rule engine (decision_source RULE_ENGINE_LEVEL_1). JANGAN menampilkan probabilitas ML sebagai "peluang bahaya".
+- Tampilkan DO sebagai "Estimated DO". JANGAN mengklaim deteksi spesies alga atau toksin.
+- Go/Dart TIDAK boleh memuat .joblib/.tflite; hanya layanan Python ronaair_ml yang melakukan inferensi.
+- JANGAN mengedit ronaair_backend/database/schema.sql; buat file migrasi baru dan minta backup DB dulu.
+- Minta konfirmasi sebelum: pip install, perintah yang menghapus data/berkas, atau perubahan skema database.
+- Kerjakan satu model per putaran; uji ujung-ke-ujung dengan samples/ sebelum lanjut.
