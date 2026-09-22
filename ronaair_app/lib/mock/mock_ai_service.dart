@@ -1,5 +1,6 @@
 import 'dart:math';
-import '../data/models/visual_analysis_result.dart';
+
+import '../../data/models/visual_analysis_result.dart';
 
 /// Mode simulasi AI.
 enum MockAiMode { auto, normal, waspada, siaga }

@@ -1,58 +1,21 @@
-[
-    {
-        "name": "wtemp",
-        "type": "float64"
-    },
-    {
-        "name": "ph",
-        "type": "float64"
-    },
-    {
-        "name": "ec",
-        "type": "float64"
-    },
-    {
-        "name": "turbidity",
-        "type": "float64"
-    },
-    {
-        "name": "nitrate_ppm",
-        "type": "float64"
-    },
-    {
-        "name": "ammonia_mgL",
-        "type": "float64"
-    },
-    {
-        "name": "manganese_mgL",
-        "type": "float64"
-    },
-    {
-        "name": "hour_sin",
-        "type": "float64"
-    },
-    {
-        "name": "hour_cos",
-        "type": "float64"
-    },
-    {
-        "name": "month_sin",
-        "type": "float64"
-    },
-    {
-        "name": "month_cos",
-        "type": "float64"
-    },
-    {
-        "name": "temp2",
-        "type": "float64"
-    },
-    {
-        "name": "temp_ph",
-        "type": "float64"
-    },
-    {
-        "name": "has_ec",
-        "type": "int64"
-    }
-]
+{
+  "input_columns_in_order": [
+    "temp_c",
+    "ph",
+    "turbidity_ntu",
+    "hour_sin",
+    "hour_cos",
+    "month_sin",
+    "month_cos"
+  ],
+  "dtypes": {
+    "temp_c": "float (\u00b0C)",
+    "ph": "float",
+    "turbidity_ntu": "float (NTU)",
+    "hour_sin": "float [-1,1]",
+    "hour_cos": "float [-1,1]",
+    "month_sin": "float [-1,1]",
+    "month_cos": "float [-1,1]"
+  },
+  "notes": "hour_sin/cos = sin/cos(2*pi*hour_of_day/24); month_sin/cos = sin/cos(2*pi*month/12). turbidity_ntu boleh NaN (diimputasi otomatis oleh Pipeline)."
+}

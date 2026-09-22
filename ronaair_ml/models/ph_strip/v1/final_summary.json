@@ -1,0 +1,28 @@
+{
+  "final_model": "PolynomialRidge2",
+  "final_feature_set": "COMBINED_ALL",
+  "test_metrics": {
+    "MAE": 0.2904760126668359,
+    "RMSE": 0.36208033237798026,
+    "R2": 0.8809061875547914,
+    "within_0.25": 48.78048780487805,
+    "within_0.5": 85.36585365853658,
+    "within_1.0": 100.0
+  },
+  "ph_range": {
+    "train": [
+      5.016,
+      8.552
+    ],
+    "validation": [
+      5.005,
+      8.565
+    ],
+    "test": [
+      5.0,
+      8.506
+    ]
+  },
+  "mobile_deployment": "native Kotlin (model_coefficients.json)",
+  "tflite": "NO \u2014 selected model is not a Keras model"
+}

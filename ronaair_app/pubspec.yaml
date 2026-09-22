@@ -14,6 +14,9 @@ dependencies:
   # Ikon bawaan Flutter
   cupertino_icons: ^1.0.6
 
+  # Plugin untuk akses kamera & gambar
+  camera: ^0.12.1
+
   # Komunikasi HTTP ke backend Go
   http: ^1.2.0
 

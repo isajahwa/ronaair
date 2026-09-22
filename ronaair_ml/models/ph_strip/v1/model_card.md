@@ -1,7 +1,7 @@
 # Model Card — RonaAir pH Strip Estimator
 
 **Version:** ronair-ph-1.0.0
-**Generated:** 2026-09-17T10:17:48+00:00
+**Generated:** 2026-09-21T02:59:45+00:00
 **Random seed:** 42
 
 ## Model purpose
@@ -23,7 +23,7 @@ regressor with no calibrated uncertainty.
 - Architecture: **PolynomialRidge2** on feature set `COMBINED_ALL`
 - Selection metric: group-aware 5-fold cross-validated MAE on the training split
 - Selection CV MAE: 0.3598 pH
-- Candidates evaluated: 30 (feature set x model) combinations
+- Candidates evaluated: 37 (feature set x model) combinations
 
 ## Training data
 - Datasets used: A_pH_test_dataset

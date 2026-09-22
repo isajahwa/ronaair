@@ -42,6 +42,9 @@ func RegisterRoutes(mux *http.ServeMux, apiVersion string, db *sql.DB) http.Hand
 	mux.HandleFunc("GET "+prefix+"/history", historyHandler.GetHistory)
 	mux.HandleFunc("GET "+prefix+"/device", deviceHandler.GetDevices)
 
-	// Bungkus dengan middleware
+	assessmentHandler := &handlers.AssessmentHandler{}
+	mux.HandleFunc("POST "+prefix+"/assess", assessmentHandler.AssessSession)
+
+// Bungkus dengan middleware
 	return middleware.Logger(mux)
 }

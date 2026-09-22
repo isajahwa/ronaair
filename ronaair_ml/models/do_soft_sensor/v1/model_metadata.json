@@ -1,117 +1,101 @@
 {
-  "model_name": "Model C",
-  "model_type": "Multiple Linear Regression",
-  "target": "do",
-  "target_meaning": "Actual/reference DO used for training; model output is Estimated DO, not measured DO.",
-  "feature_list": [
-    "wtemp",
-    "ec",
-    "ph"
+  "model_name": "RonaAir_DO_SoftSensor_XGBoost",
+  "created_utc": "2026-09-21T02:21:56.976846+00:00",
+  "target": "do_mgl",
+  "raw_input_columns": [
+    "temp_c",
+    "ph",
+    "turbidity_ntu",
+    "hour_sin",
+    "hour_cos",
+    "month_sin",
+    "month_cos"
   ],
-  "units": {
-    "do": "mg/L",
-    "wtemp": "\u00b0C",
-    "ec": "us/cm",
-    "ph": "pH unit"
+  "engineered_feature_names": [
+    "temp_c",
+    "ph",
+    "turbidity_ntu",
+    "do_saturation_theory",
+    "temp_sq",
+    "ph_temp_interaction",
+    "turbidity_log1p",
+    "algae_proxy_index",
+    "hour_sin",
+    "hour_cos",
+    "month_sin",
+    "month_cos"
+  ],
+  "best_hyperparameters": {
+    "model__subsample": 0.85,
+    "model__n_estimators": 300,
+    "model__min_child_weight": 3,
+    "model__max_depth": 8,
+    "model__learning_rate": 0.03,
+    "model__colsample_bytree": 0.8
   },
-  "intercept": 5.607391236608948,
-  "coefficients": {
-    "wtemp": -0.2633041904689574,
-    "ec": -0.021831208490066804,
-    "ph": 1.1582515514944878
+  "physical_bounds_used_for_cleaning": {
+    "temp_c": [
+      10.0,
+      40.0
+    ],
+    "ph": [
+      4.0,
+      10.5
+    ],
+    "do_mgl": [
+      0.0001,
+      30.0
+    ]
   },
-  "training_date": "2026-09-12T00:41:56",
-  "training_row_count_train_validation": 11541,
-  "validation_information": [
-    {
-      "Model": "Model A",
-      "Features": "wtemp",
-      "Status": "OK",
-      "Train_N": 36536,
-      "Validation_N": 7927,
-      "Validation_MAE": 0.24877922507222597,
-      "Validation_RMSE": 0.3432350401042157,
-      "Validation_R2": 0.9126950737163637,
-      "Validation_Bias_pred_minus_actual": -0.07803873891499354,
-      "Validation_MaxAbsError": 1.0016861175036107
+  "training_sources_included": [
+    "aquaponds",
+    "fishpond_multiclass",
+    "smart_aquaculture_dashboard"
+  ],
+  "sources_excluded": {
+    "Data_Model_IoTMLCQ_2024.csv": "only 6 unique sensor combinations across 43498 rows (leakage risk)",
+    "QC1_complete_Soapstone_Hydroshare.csv": "different domain (cold-water creek, not tropical fishpond); used only as cross-domain holdout"
+  },
+  "metrics": {
+    "random_split_test": {
+      "r2": 0.4244044359229526,
+      "mae": 3.0010754281598673,
+      "rmse": 4.079414937806699
     },
-    {
-      "Model": "Model B",
-      "Features": "wtemp + ec",
-      "Status": "OK",
-      "Train_N": 36480,
-      "Validation_N": 7540,
-      "Validation_MAE": 0.2231515398526179,
-      "Validation_RMSE": 0.3083534448375511,
-      "Validation_R2": 0.925790431386776,
-      "Validation_Bias_pred_minus_actual": -0.09899443501259897,
-      "Validation_MaxAbsError": 0.9734118156253553
+    "baseline_mean_test": {
+      "r2": -0.00016300799270485555,
+      "mae": 4.487127049659171,
+      "rmse": 5.377427409802745
     },
-    {
-      "Model": "Model C",
-      "Features": "wtemp + ec + ph",
-      "Status": "OK",
-      "Train_N": 11142,
-      "Validation_N": 399,
-      "Validation_MAE": 0.9073077525401555,
-      "Validation_RMSE": 0.9197042792869586,
-      "Validation_R2": -2.8986126068706914,
-      "Validation_Bias_pred_minus_actual": 0.9073077525401555,
-      "Validation_MaxAbsError": 1.4358642910161645
+    "baseline_mlr_test": {
+      "r2": 0.27213321237007837,
+      "mae": 3.566164214144321,
+      "rmse": 4.5873841977421
+    },
+    "leave_one_source_out": {
+      "fishpond_multiclass": {
+        "r2": -2.342352682112095,
+        "mae": 5.7702246421976975,
+        "rmse": 6.581648930492707
+      },
+      "aquaponds": {
+        "r2": -0.3245725069726353,
+        "mae": 4.707785225012573,
+        "rmse": 6.225861492955715
+      },
+      "smart_aquaculture_dashboard": {
+        "r2": -1.3960933621654057,
+        "mae": 6.265004900411948,
+        "rmse": 6.625174404918829
+      }
     }
-  ],
-  "test_performance_locked_model": {
-    "MAE": 0.5887178350171203,
-    "RMSE": 0.6256471224398787,
-    "MSE": 0.39143432181730065,
-    "R2": 0.7238619052613839,
-    "Bias": 0.5887178350171203,
-    "MaxAbsError": 1.3737645856206413,
-    "N": 7927
   },
-  "source_dataset": "/content/QC1_complete_Soapstone_Hydroshare.csv",
-  "primary_dataset_name": "QC1_complete_Soapstone_Hydroshare.csv",
-  "timestamp_range": {
-    "min": "2021-04-02 14:00:00",
-    "max": "2023-07-20 07:15:00"
-  },
-  "training_ranges": [
-    {
-      "feature": "ec",
-      "unit": "us/cm",
-      "train_min": 27.7,
-      "train_max": 96.9,
-      "warning": "Deployment input outside this range is extrapolation and should be flagged."
-    },
-    {
-      "feature": "ph",
-      "unit": "pH unit",
-      "train_min": 6.57,
-      "train_max": 7.54,
-      "warning": "Deployment input outside this range is extrapolation and should be flagged."
-    },
-    {
-      "feature": "wtemp",
-      "unit": "\u00b0C",
-      "train_min": 0.01,
-      "train_max": 22.04,
-      "warning": "Deployment input outside this range is extrapolation and should be flagged."
-    }
-  ],
-  "software_versions": {
-    "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
-    "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
-    "pandas": "2.2.3",
-    "numpy": "2.1.3",
-    "scikit_learn": "1.6.1",
-    "scipy": "1.16.3",
-    "statsmodels": "0.15.0"
-  },
-  "selection_reason": "Selected Model C using CV MAE mean, validation availability, robustness, and simpler-model tie break within 5%. Test data was not used for selection.",
-  "limitations": [
-    "No claim of universal validity.",
-    "Estimated DO is not a replacement for a reference DO sensor.",
-    "Test set was not used for model selection.",
-    "Inputs outside training range are extrapolation."
+  "n_train_rows": 38830,
+  "n_val_rows": 8321,
+  "n_test_rows": 8321,
+  "sklearn_pipeline_steps": [
+    "features",
+    "scaler",
+    "model"
   ]
 }
